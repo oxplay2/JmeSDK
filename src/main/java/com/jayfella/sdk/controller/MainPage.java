@@ -43,18 +43,10 @@ public class MainPage implements Initializable {
     @FXML private AnchorPane mainAnchorPane; // keep a reference so we can add the "loading" overlay
     @FXML private TabPane scenesTabPane; //
     @FXML private AnchorPane mainSceneAnchorPane;
-
-    // @FXML private TreeView<Object> sceneTreeView;
     @FXML private Tab sceneEditorTab;
-    // @FXML private TreeView<Object> projectFilesTreeView; // directory structure
-
     @FXML private ListView<BindableAppState> appstatesListView;
-
     @FXML private Accordion inspectorAccordion;
-
     @FXML private HBox statusHBox;
-
-
     @FXML private AnchorPane projectFilesAnchorPane;
 
     @Override
@@ -115,40 +107,6 @@ public class MainPage implements Initializable {
         }
 
         statusHBox.getChildren().add(loaderControl);
-
-        /*
-        this.projectFilesTreeView.setCellFactory(new ProjectTreeCellFactory(Project.getOpenProject()));
-        this.projectFilesTreeView.setOnMouseClicked(mouseEvent -> {
-
-            if (mouseEvent.getClickCount() == 2) {
-
-                TreeItem<Object> treeItem = projectFilesTreeView.getSelectionModel().getSelectedItem();
-
-                if (treeItem != null) {
-
-                    if (treeItem instanceof FolderTreeItem) {
-                        // do nothing.
-                    }
-                    else if (treeItem instanceof ResourceModelTreeItem) {
-
-                        File file = (File) treeItem.getValue();
-
-                        if (file.getName().toLowerCase().endsWith(".j3o")) {
-
-
-
-                            ServiceManager.getService(SceneExplorerService.class).openFile(file);
-
-                        }
-
-                    }
-
-                }
-            }
-
-        });
-
-         */
 
         this.appstatesListView.setCellFactory(p -> new AppStateListViewCell());
         this.appstatesListView.setOnMouseClicked(mouseEvent -> {
@@ -236,6 +194,19 @@ public class MainPage implements Initializable {
                     BuildOverlay controller = fxmlLoader.getController();
                     controller.bind(task.statusProperty());
 
+                    controller.getProgressIndicator().visibleProperty().bind(task.succeededProperty());
+
+                    controller.getRebuildButton().setOnAction(event -> {
+                        mainAnchorPane.getChildren().remove(root);
+                        compileProject();
+                    });
+
+                    controller.getRebuildButton().visibleProperty().bind(task.succeededProperty().not());
+
+
+                    // don't "unmanage" the button because it makes the status jump up.
+                    // controller.getRebuildButton().managedProperty().bind(controller.getRebuildButton().visibleProperty());
+
                     AnchorPane.setLeftAnchor(root, 0d);
                     AnchorPane.setRightAnchor(root, 0d);
                     AnchorPane.setTopAnchor(root, 0d);
@@ -251,15 +222,16 @@ public class MainPage implements Initializable {
             @Override
             public void taskCompleted(BackgroundTask task) {
 
-                // remove the loading overlay
-                mainAnchorPane.getChildren().remove(root);
+                if (task.isSucceeded()) {
 
-                ServiceManager.getService(ProjectInjectorService.class).inject();
+                    // remove the loading overlay
+                    mainAnchorPane.getChildren().remove(root);
 
-                // populateProjectFilesTreeView();
-                ServiceManager.getService(ProjectExplorerService.class).populateProjectFilesTreeView();
+                    ServiceManager.getService(ProjectInjectorService.class).inject();
+                    ServiceManager.getService(ProjectExplorerService.class).populateProjectFilesTreeView();
 
-                populateAppStatesListView();
+                    populateAppStatesListView();
+                }
             }
         };
 
@@ -331,6 +303,13 @@ public class MainPage implements Initializable {
     private void onExitMenuItemPressed(ActionEvent event) {
         ServiceManager.stop();
         Platform.exit();
+    }
+
+    @FXML
+    private void runGameMenuItemPressed(ActionEvent event) {
+
+
+
     }
 
 }
