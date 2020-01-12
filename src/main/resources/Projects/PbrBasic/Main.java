@@ -7,14 +7,8 @@ import com.jme3.material.Material;
 import com.jme3.material.TechniqueDef;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
-import com.jme3.post.FilterPostProcessor;
-import com.jme3.post.filters.FXAAFilter;
-import com.jme3.post.filters.ToneMapFilter;
-import com.jme3.post.ssao.SSAOFilter;
 import com.jme3.scene.Geometry;
-import com.jme3.scene.Node;
 import com.jme3.scene.shape.Box;
-import com.jme3.shadow.DirectionalLightShadowFilter;
 import com.jme3.system.AppSettings;
 
 /**
