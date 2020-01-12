@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.control.TreeView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox fx:id="root" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <HBox fx:id="toolbarHBox" alignment="CENTER_LEFT" spacing="5.0">
+         <children>
+            <Label fx:id="openFileLabel" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+            </Label>
+            <Button mnemonicParsing="false" onAction="#onSaveButtonClicked">
+                <graphic>
+                    <ImageView preserveRatio="true">
+                        <Image url="@../Icons/File/save-regular.png" />
+                    </ImageView>
+                </graphic>
+               <tooltip>
+                  <Tooltip text="Save Changes" />
+               </tooltip>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#onCloseButtonClicked">
+                <graphic>
+                    <ImageView preserveRatio="true">
+                        <Image url="@../Icons/times-circle-regular.png" />
+                    </ImageView>
+                </graphic>
+               <tooltip>
+                  <Tooltip text="Close" />
+               </tooltip>
+            </Button>
+         </children>
+         <VBox.margin>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </VBox.margin>
+      </HBox>
+      <TreeView fx:id="sceneTree" maxHeight="1.7976931348623157E308" VBox.vgrow="ALWAYS" />
+   </children>
+</VBox>

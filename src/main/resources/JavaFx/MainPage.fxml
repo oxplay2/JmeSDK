@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Accordion?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane fx:id="mainAnchorPane" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jayfella.sdk.controller.MainPage">
+   <children>
+      <VBox prefHeight="650.0" prefWidth="951.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <MenuBar>
+              <menus>
+                <Menu mnemonicParsing="false" text="File">
+                  <items>
+                    <MenuItem mnemonicParsing="false" onAction="#onExitMenuItemPressed" text="Exit" />
+                  </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Edit">
+                  <items>
+                    <MenuItem mnemonicParsing="false" onAction="#onSceneSettingsClicked" text="Scene Settings" />
+                  </items>
+                </Menu>
+                  <Menu mnemonicParsing="false" text="Build">
+                    <items>
+                      <MenuItem mnemonicParsing="false" onAction="#buildMenuItemPressed" text="Build Project" />
+                    </items>
+                  </Menu>
+                <Menu mnemonicParsing="false" text="Help">
+                  <items>
+                    <MenuItem mnemonicParsing="false" text="About" />
+                  </items>
+                </Menu>
+              </menus>
+            </MenuBar>
+            <AnchorPane fx:id="mainPane" prefHeight="485.0" prefWidth="799.0" VBox.vgrow="ALWAYS">
+               <children>
+                  <SplitPane dividerPositions="0.3119072708113804, 0.8187565858798735" layoutX="125.0" layoutY="94.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <items>
+                        <SplitPane dividerPositions="0.5" orientation="VERTICAL">
+                           <items>
+                              <TabPane fx:id="scenesTabPane">
+                                 <tabs>
+                                    <Tab fx:id="sceneEditorTab" closable="false" text="Scene Editor" />
+                                    <Tab closable="false" text="AppStates">
+                                      <content>
+                                          <ListView fx:id="appstatesListView" prefHeight="200.0" prefWidth="200.0" />
+                                      </content>
+                                    </Tab>
+                                 </tabs>
+                              </TabPane>
+                              <AnchorPane fx:id="projectFilesAnchorPane" />
+                           </items>
+                        </SplitPane>
+                    <AnchorPane fx:id="mainSceneAnchorPane" />
+                        <Accordion fx:id="inspectorAccordion" />
+                    </items>
+                  </SplitPane>
+               </children>
+            </AnchorPane>
+            <HBox fx:id="statusHBox" VBox.vgrow="NEVER">
+               <children>
+                  <HBox HBox.hgrow="ALWAYS">
+                     <children>
+                        <Label text="Ready." />
+                     </children>
+                  </HBox>
+               </children>
+               <VBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </VBox.margin>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

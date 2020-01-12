@@ -1,0 +1,66 @@
+package com.jayfella.sdk.component;
+
+import com.jayfella.sdk.component.builder.ReflectedProperty;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+
+import java.io.IOException;
+import java.lang.reflect.Method;
+
+public abstract class Component implements Initializable {
+
+    private String propertyName = "";
+
+    private ReflectedProperty reflectedProperty;
+    private PropertyChangedEvent propertyChangedEvent;
+
+    public Component(Object parent, Method getter, Method setter) {
+        if (parent != null) {
+            this.reflectedProperty = new ReflectedProperty(parent, getter, setter, this);
+        }
+
+    }
+
+    public abstract Parent getJfxControl();
+
+    protected void load(String resource) {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(resource));
+        fxmlLoader.setController(this);
+
+        try {
+            fxmlLoader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public abstract void load();
+
+    public ReflectedProperty getReflectedProperty() {
+        return reflectedProperty;
+    }
+
+    public String getPropertyName() {
+        return propertyName;
+    }
+
+    public void setPropertyName(String name) {
+        this.propertyName = name;
+    }
+
+    public void setValue(Object value) {
+        if (propertyChangedEvent != null) {
+            propertyChangedEvent.propertyChanged(value);
+        }
+    }
+
+    public PropertyChangedEvent getPropertyChangedEvent() {
+        return this.propertyChangedEvent;
+    }
+
+    public void setPropertyChangedEvent(PropertyChangedEvent event) {
+        this.propertyChangedEvent = event;
+    }
+
+}

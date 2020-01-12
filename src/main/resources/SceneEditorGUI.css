@@ -1,0 +1,14 @@
+.buttonLeft {
+    -fx-background-radius: 5 0 0 5;
+    -fx-padding: 3;
+}
+
+.buttonCenter {
+    -fx-background-radius: 0;
+    -fx-padding: 3;
+}
+
+.buttonRight {
+    -fx-background-radius: 0 5 5 0;
+    -fx-padding: 3;
+}

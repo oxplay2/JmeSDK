@@ -1,0 +1,87 @@
+plugins {
+    id 'java'
+    id 'org.openjfx.javafxplugin' version '0.0.8'
+    id 'application'
+}
+
+javafx {
+    version = '13'
+    modules = [
+            'javafx.base',
+            'javafx.controls',
+            'javafx.fxml',
+            'javafx.graphics',
+            'javafx.swing'
+    ]
+}
+
+group 'com.jayfella'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = JavaVersion.VERSION_11
+targetCompatibility = JavaVersion.VERSION_11
+
+mainClassName = "com.jayfella.sdk.Main"
+
+repositories {
+    jcenter()
+    mavenLocal()
+    maven { url 'https://dl.bintray.com/stephengold/org.jmonkeyengine' } // for jme3-testdata
+
+}
+
+project.ext {
+    jmeVer = '3.3.0-alpha5'
+
+    slf4jVer = "1.7.25"
+    log4jVer = "1.2.17"
+    jacksonVer = "2.10.1"
+}
+
+dependencies {
+
+    compile "com.jayfella:sdk-ext:1.0"
+
+    compile "org.jmonkeyengine:jme3-core:3.3.0-alpha5"
+    compile "org.jmonkeyengine:jme3-desktop:3.3.0-alpha5"
+    compile "org.jmonkeyengine:jme3-lwjgl3:3.3.0-alpha5"
+    compile "org.jmonkeyengine:jme3-plugins:3.3.0-alpha5"
+    compile "org.jmonkeyengine:jme3-blender:3.3.0-alpha5"
+    compile "org.jmonkeyengine:jme3-jogg:3.3.0-alpha5"
+    compile "org.jmonkeyengine:jme3-terrain:3.3.0-alpha5"
+
+    compile "org.jmonkeyengine:jme3-testdata:3.3.0-alpha2"
+
+    // used for URLClassPath (external asset loader).
+    compile group: 'javassist', name: 'javassist', version: '3.12.1.GA'
+
+    // logging
+    compile "org.slf4j:slf4j-log4j12:1.7.25"
+    compile "org.slf4j:jul-to-slf4j:1.7.25"
+
+    // JSON - jackson
+    compile "com.fasterxml.jackson.core:jackson-core:2.10.1"
+    compile "com.fasterxml.jackson.core:jackson-databind:2.10.1"
+    compile "com.fasterxml.jackson.core:jackson-annotations:2.10.1"
+
+    compile "commons-io:commons-io:2.6"
+    compile "commons-lang:commons-lang:2.6"
+    compile "org.apache.commons:commons-collections4:4.4"
+
+
+    compile "org.reflections:reflections:0.9.11"
+
+    // zip files
+    compile "net.lingala.zip4j:zip4j:2.2.8"
+}
+
+jar {
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+
+    manifest {
+        attributes 'Main-Class': 'com.jayfella.sdk.Main'
+    }
+
+}

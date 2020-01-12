@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jayfella.sdk.controller.NewProjectPage">
+   <children>
+      <GridPane hgap="10.0" layoutX="78.0" layoutY="155.0" vgap="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <columnConstraints>
+          <ColumnConstraints halignment="RIGHT" hgrow="NEVER" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints vgrow="SOMETIMES" />
+            <RowConstraints vgrow="SOMETIMES" />
+            <RowConstraints vgrow="SOMETIMES" />
+            <RowConstraints vgrow="SOMETIMES" />
+          <RowConstraints vgrow="ALWAYS" />
+            <RowConstraints valignment="BOTTOM" vgrow="NEVER" />
+        </rowConstraints>
+         <children>
+            <Label text="Name" GridPane.rowIndex="1" />
+            <Label text="GroupId" GridPane.rowIndex="2" />
+            <Label text="Location" GridPane.rowIndex="5" />
+            <Label text="ArtifactId" GridPane.rowIndex="3" />
+            <Label text="Version" GridPane.rowIndex="4" />
+            <TextField fx:id="nameTextField" text="newtest" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <tooltip>
+                  <Tooltip text="The name of your project." />
+               </tooltip>
+            </TextField>
+            <TextField fx:id="groupIdTextField" promptText="org.example" text="com.jayfella" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <TextField fx:id="artifactIdTextField" promptText="untitled" text="newtest" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <TextField fx:id="versionTextField" text="1.0.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <HBox spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="5" GridPane.valignment="CENTER">
+               <children>
+                  <TextField fx:id="locationTextField" HBox.hgrow="ALWAYS" />
+                  <Button fx:id="browseLocationButton" mnemonicParsing="false" onAction="#browseLocationButtonClicked" text="Browse..." />
+               </children>
+            </HBox>
+            <Button mnemonicParsing="false" onAction="#createNewProjectButtonClicked" text="Create New Project" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="7" />
+         </children>
+         <padding>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+         </padding>
+      </GridPane>
+   </children>
+</AnchorPane>

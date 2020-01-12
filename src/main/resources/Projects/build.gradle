@@ -1,0 +1,32 @@
+plugins {
+    id 'java'
+    id 'application'
+    id "com.github.johnrengelman.shadow" version "5.2.0"
+}
+
+group '${GRADLE.GROUP}'
+version '${GRADLE.VERSION}'
+
+sourceCompatibility = 11
+mainClassName = "${GRADLE.MAINCLASSNAME}"
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    implementation "org.jmonkeyengine:jme3-core:${GRADLE.JME.VERSION}"
+    implementation "org.jmonkeyengine:jme3-desktop:${GRADLE.JME.VERSION}"
+
+    // implementation "org.jmonkeyengine:jme3-lwjgl:${GRADLE.JME.VERSION}"
+    implementation "org.jmonkeyengine:jme3-lwjgl3:${GRADLE.JME.VERSION}"
+
+    implementation "org.jmonkeyengine:jme3-effects:${GRADLE.JME.VERSION}"
+    implementation "org.jmonkeyengine:jme3-jogg:${GRADLE.JME.VERSION}"
+    // implementation "org.jmonkeyengine:jme3-plugins:${GRADLE.JME.VERSION}"
+
+    implementation "org.jmonkeyengine:jme3-bullet:${GRADLE.JME.VERSION}"
+    implementation "org.jmonkeyengine:jme3-bullet-native:${GRADLE.JME.VERSION}"
+    // implementation "org.jmonkeyengine:jme3-jbullet:${GRADLE.JME.VERSION}"
+
+}
