@@ -15,8 +15,4 @@ How to use:
     * `cd ./sdk-ext`
     * `./gradlew build install`
 
-
-Contents
-- Development Notes
-- Registering objects 
-
+To run the SDK either open it in your favourite IDE or navigate to the JmeSDK folder and execute `./gradlew run`.
