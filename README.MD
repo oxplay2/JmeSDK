@@ -1,6 +1,6 @@
 JME-SDK
 ---
-A completely custom SDK using JavaFX.
+A completely custom SDK using JavaFX. **Requires Java 11**
 
 This project is currently in its **CONCEPT** stage.
 
