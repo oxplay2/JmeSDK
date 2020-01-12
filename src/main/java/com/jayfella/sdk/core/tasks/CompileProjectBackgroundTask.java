@@ -56,11 +56,17 @@ public class CompileProjectBackgroundTask extends BackgroundTask {
                 }
                 else {
                     log.error("Exited with error code: " + exitCode);
-                    setStatus("Exited with error code: " + exitCode);
+                    setStatus("Build Failed.");
+                    succeededProperty().setValue(false);
+                    return;
                 }
 
             } catch (IOException | InterruptedException e) {
-                e.printStackTrace();
+                // e.printStackTrace();
+                setStatus("Build Failed.");
+                log.error("Build failed.", e);
+                succeededProperty().setValue(false);
+                return;
             }
         }
         else {
