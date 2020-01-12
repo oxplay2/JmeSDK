@@ -1,10 +1,7 @@
 package com.jayfella.sdk.core.background;
 
 import javafx.application.Platform;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
 import javafx.scene.control.ProgressBar;
 
 public abstract class BackgroundTask implements Runnable {
@@ -14,6 +11,7 @@ public abstract class BackgroundTask implements Runnable {
     private final String name;
     private DoubleProperty progress = new SimpleDoubleProperty(0);
     private StringProperty status = new SimpleStringProperty("");
+    private BooleanProperty succeeded = new SimpleBooleanProperty(true);
 
     public BackgroundTask(String name) {
         this.name = name;
@@ -51,6 +49,14 @@ public abstract class BackgroundTask implements Runnable {
 
     public StringProperty statusProperty() {
         return status;
+    }
+
+    public boolean isSucceeded() {
+        return succeeded.get();
+    }
+
+    public BooleanProperty succeededProperty() {
+        return succeeded;
     }
 
     public BackgroundTaskListener getTaskListener() {
