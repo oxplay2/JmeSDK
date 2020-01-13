@@ -14,7 +14,6 @@ import java.util.ResourceBundle;
 
 public class BooleanComponent extends Component {
 
-    @FXML private VBox root;
     @FXML private Label titleLabel;
     @FXML private CheckBox checkBox;
 
@@ -24,11 +23,6 @@ public class BooleanComponent extends Component {
 
     public BooleanComponent(Object parent, Method getter, Method setter) {
         super(parent, getter, setter);
-    }
-
-    @Override
-    public Parent getJfxControl() {
-        return root;
     }
 
     @Override

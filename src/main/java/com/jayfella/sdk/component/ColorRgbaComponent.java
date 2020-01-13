@@ -18,7 +18,6 @@ import java.util.ResourceBundle;
 
 public class ColorRgbaComponent extends Component {
 
-    @FXML private VBox root;
     @FXML private Label titleLabel;
     @FXML private ColorPicker colorPicker;
 
@@ -28,11 +27,6 @@ public class ColorRgbaComponent extends Component {
 
     public ColorRgbaComponent(Object parent, Method getter, Method setter) {
         super(parent, getter, setter);
-    }
-
-    @Override
-    public Parent getJfxControl() {
-        return root;
     }
 
     @Override

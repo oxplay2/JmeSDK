@@ -32,7 +32,6 @@ import java.util.regex.Pattern;
 
 public class Texture2dComponent extends Component {
 
-    @FXML private VBox root;
     @FXML private Label titleLabel;
     @FXML private ComboBox<String> comboBox;
     @FXML private ImageView imageView;
@@ -51,11 +50,6 @@ public class Texture2dComponent extends Component {
 
     public Texture2dComponent(Object parent, Method getter, Method setter) {
         super(parent, getter, setter);
-    }
-
-    @Override
-    public Parent getJfxControl() {
-        return root;
     }
 
     @Override

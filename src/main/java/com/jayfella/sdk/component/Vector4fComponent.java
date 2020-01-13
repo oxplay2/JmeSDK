@@ -17,8 +17,6 @@ import java.util.ResourceBundle;
 
 public class Vector4fComponent extends Component {
 
-    @FXML
-    private VBox root;
     @FXML private Label titleLabel;
     @FXML private TextField xTextField;
     @FXML private TextField yTextField;
@@ -31,11 +29,6 @@ public class Vector4fComponent extends Component {
 
     public Vector4fComponent(Object parent, Method getter, Method setter) {
         super(parent, getter, setter);
-    }
-
-    @Override
-    public Parent getJfxControl() {
-        return root;
     }
 
     @Override

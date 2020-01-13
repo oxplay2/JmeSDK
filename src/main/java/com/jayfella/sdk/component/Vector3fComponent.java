@@ -17,7 +17,6 @@ import java.util.ResourceBundle;
 
 public class Vector3fComponent extends Component implements UpdatableComponent {
 
-    @FXML private VBox root;
     @FXML private Label titleLabel;
     @FXML private TextField xTextField;
     @FXML private TextField yTextField;
@@ -29,11 +28,6 @@ public class Vector3fComponent extends Component implements UpdatableComponent {
 
     public Vector3fComponent(Object parent, Method getter, Method setter) {
         super(parent, getter, setter);
-    }
-
-    @Override
-    public Parent getJfxControl() {
-        return root;
     }
 
     @Override

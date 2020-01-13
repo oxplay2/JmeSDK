@@ -9,9 +9,7 @@ import com.jme3.anim.tween.action.Action;
 import com.jme3.scene.Spatial;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.scene.Parent;
 import javafx.scene.control.*;
-import javafx.scene.layout.VBox;
 
 import java.lang.reflect.Method;
 import java.net.URL;
@@ -20,7 +18,6 @@ import java.util.ResourceBundle;
 
 public class AnimComposerComponent extends Component implements DisposableComponent {
 
-    @FXML private VBox root;
     @FXML private Label titleLabel;
     @FXML private ComboBox<AnimClip> animsComboBox;
     @FXML private Button playButton;
@@ -39,11 +36,6 @@ public class AnimComposerComponent extends Component implements DisposableCompon
 
     public AnimComposerComponent(Object parent, Method getter, Method setter) {
         super(parent, getter, setter);
-    }
-
-    @Override
-    public Parent getJfxControl() {
-        return root;
     }
 
     @Override

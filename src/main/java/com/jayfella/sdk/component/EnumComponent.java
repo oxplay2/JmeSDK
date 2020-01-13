@@ -17,7 +17,6 @@ import java.util.ResourceBundle;
 @SuppressWarnings("rawtypes") // we use Enum a lot
 public class EnumComponent extends Component {
 
-    @FXML private VBox root;
     @FXML private Label titleLabel;
     @FXML private ComboBox<Enum> comboBox;
 
@@ -27,11 +26,6 @@ public class EnumComponent extends Component {
 
     public void setEnumValues(Class<? extends Enum> enumData) {
         comboBox.getItems().addAll(enumData.getEnumConstants());
-    }
-
-    @Override
-    public Parent getJfxControl() {
-        return root;
     }
 
     @Override

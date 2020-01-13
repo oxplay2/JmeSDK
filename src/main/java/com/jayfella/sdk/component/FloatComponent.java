@@ -1,16 +1,12 @@
 package com.jayfella.sdk.component;
 
 import com.jayfella.sdk.core.FloatTextFormatter;
-import com.jayfella.sdk.core.ServiceManager;
 import com.jayfella.sdk.core.ThreadRunner;
-import com.jayfella.sdk.service.JmeEngineService;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
-import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.VBox;
 
 import java.lang.reflect.Method;
 import java.net.URL;
@@ -18,7 +14,6 @@ import java.util.ResourceBundle;
 
 public class FloatComponent extends Component {
 
-    @FXML private VBox root;
     @FXML private Label titleLabel;
     @FXML private TextField textField;
 
@@ -30,10 +25,6 @@ public class FloatComponent extends Component {
         super(parent, getter, setter);
     }
 
-    @Override
-    public Parent getJfxControl() {
-        return root;
-    }
 
     @Override
     public void load() {

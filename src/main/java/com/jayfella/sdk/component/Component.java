@@ -23,8 +23,6 @@ public abstract class Component extends VBox implements Initializable {
 
     }
 
-    public abstract Parent getJfxControl();
-
     protected void load(String resource) {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(resource));
         fxmlLoader.setController(this);

@@ -15,8 +15,6 @@ import java.util.ResourceBundle;
 
 public class StringComponent extends Component {
 
-    @FXML
-    private VBox root;
     @FXML private Label titleLabel;
     @FXML private TextField textField;
 
@@ -26,11 +24,6 @@ public class StringComponent extends Component {
 
     public StringComponent(Object parent, Method getter, Method setter) {
         super(parent, getter, setter);
-    }
-
-    @Override
-    public Parent getJfxControl() {
-        return root;
     }
 
     @Override
