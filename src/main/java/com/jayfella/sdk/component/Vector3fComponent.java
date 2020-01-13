@@ -15,7 +15,7 @@ import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class Vector3fComponent extends Component {
+public class Vector3fComponent extends Component implements UpdatableComponent {
 
     @FXML private VBox root;
     @FXML private Label titleLabel;
@@ -109,6 +109,22 @@ public class Vector3fComponent extends Component {
             yTextField.setText("" + vector3f.y);
             zTextField.setText("" + vector3f.z);
         });
+    }
+
+    @Override
+    public void update() {
+
+        if (getReflectedProperty() != null) {
+
+            Vector3f oldValue = getVector3f();
+            Vector3f newValue = (Vector3f) getReflectedProperty().getValue();
+
+            if (!oldValue.equals(newValue)) {
+                setValue(newValue);
+            }
+
+        }
+
     }
 
 }

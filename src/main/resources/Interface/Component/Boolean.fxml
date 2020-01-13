@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox fx:id="root" stylesheets="@../../style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root type="VBox" fx:id="root" stylesheets="@../../style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <HBox styleClass="componentTitleHBox">
          <children>
@@ -29,4 +29,4 @@
       <String fx:value="componentVBox" />
       <String fx:value="component" />
    </styleClass>
-</VBox>
+</fx:root>

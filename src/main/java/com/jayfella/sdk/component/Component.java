@@ -4,11 +4,12 @@ import com.jayfella.sdk.component.builder.ReflectedProperty;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
 
-public abstract class Component implements Initializable {
+public abstract class Component extends VBox implements Initializable {
 
     private String propertyName = "";
 
@@ -27,6 +28,7 @@ public abstract class Component implements Initializable {
     protected void load(String resource) {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(resource));
         fxmlLoader.setController(this);
+        fxmlLoader.setRoot(this);
 
         try {
             fxmlLoader.load();
