@@ -13,9 +13,16 @@ import com.jme3.app.Application;
 import com.jme3.asset.AssetManager;
 import com.jme3.asset.ModelKey;
 import com.jme3.asset.plugins.FileLocator;
+import com.jme3.bounding.BoundingBox;
+import com.jme3.bounding.BoundingSphere;
 import com.jme3.export.binary.BinaryExporter;
+import com.jme3.material.Material;
+import com.jme3.math.ColorRGBA;
+import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
+import com.jme3.scene.debug.WireBox;
+import com.jme3.scene.debug.WireSphere;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.ActionEvent;
@@ -75,6 +82,9 @@ public class SceneExplorerService implements Service, Initializable {
     private Spatial lastSelectedSpatial;
     private Selectable lastSelectable;
 
+    // displays a bounding box or a mesh shape of the selected item.
+    private Geometry highlightGeom;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
@@ -131,19 +141,117 @@ public class SceneExplorerService implements Service, Initializable {
         // This is also invoked when an item is selected via the scene graph, as it selects the found spatial here.
         this.sceneTree.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
 
-            if (newValue != null && newValue.getValue() instanceof Spatial) {
-                Spatial spatial = (Spatial) newValue.getValue();
+            if (newValue != null) {
 
-                ThreadRunner.runInJmeThread(() -> {
-                    JmeEngineService engineService = ServiceManager.getService(JmeEngineService.class);
-                    SpatialToolState spatialToolState = engineService.getStateManager().getState(SpatialToolState.class);
-                    spatialToolState.setSpatial(spatial);
-                });
+                if (newValue.getValue() instanceof Spatial) {
 
+                    Spatial spatial = (Spatial) newValue.getValue();
+
+                    ThreadRunner.runInJmeThread(() -> {
+                        JmeEngineService engineService = ServiceManager.getService(JmeEngineService.class);
+                        SpatialToolState spatialToolState = engineService.getStateManager().getState(SpatialToolState.class);
+                        spatialToolState.setSpatial(spatial);
+                    });
+
+                    if (spatial instanceof Node) {
+                        highlightBoundingShape(spatial);
+                    }
+                    else {
+                        Geometry geometry = (Geometry) spatial;
+                        highlightMesh(geometry);
+                    }
+                }
+                else {
+                    deleteHighlight();
+                }
             }
 
         });
 
+    }
+
+    public void deleteHighlight() {
+        if (highlightGeom != null) {
+            ThreadRunner.runInJmeThread(() -> {
+                highlightGeom.removeFromParent();
+                highlightGeom = null;
+            });
+        }
+    }
+
+    public void clearHighlight() {
+        if (highlightGeom != null) {
+            ThreadRunner.runInJmeThread(() -> highlightGeom.removeFromParent());
+
+        }
+    }
+
+    public void showHightlight() {
+        if (highlightGeom != null) {
+            JmeEngineService engineService = ServiceManager.getService(JmeEngineService.class);
+            ThreadRunner.runInJmeThread(() -> {
+                engineService.getRootNode().attachChild(highlightGeom);
+            });
+
+        }
+    }
+
+    private void highlightBoundingShape(Spatial spatial) {
+
+        clearHighlight();
+
+        if (spatial.getWorldBound() != null) {
+            ServiceManager.getService(JmeEngineService.class).enqueue(() -> {
+
+                if (spatial.getWorldBound() instanceof BoundingBox) {
+
+                    this.highlightGeom = WireBox.makeGeometry((BoundingBox) spatial.getWorldBound());
+
+                    this.highlightGeom.setMaterial(new Material(ServiceManager.getService(JmeEngineService.class).getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md"));
+                    this.highlightGeom.getMaterial().getAdditionalRenderState().setLineWidth(2);
+                    this.highlightGeom.getMaterial().getAdditionalRenderState().setWireframe(true);
+                    this.highlightGeom.getMaterial().setColor("Color", ColorRGBA.Blue);
+
+                    showHightlight();
+                }
+                else if (spatial.getWorldBound() instanceof BoundingSphere) {
+
+                    BoundingSphere boundingSphere = (BoundingSphere) spatial.getWorldBound();
+                    WireSphere wireSphere = new WireSphere(boundingSphere.getRadius());
+
+                    this.highlightGeom = new Geometry("Bounding Sphere Geometry", wireSphere);
+                    this.highlightGeom.setMaterial(new Material(ServiceManager.getService(JmeEngineService.class).getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md"));
+                    this.highlightGeom.getMaterial().getAdditionalRenderState().setLineWidth(2);
+                    this.highlightGeom.getMaterial().getAdditionalRenderState().setWireframe(true);
+                    this.highlightGeom.getMaterial().setColor("Color", ColorRGBA.Blue);
+
+                    showHightlight();
+                }
+
+            });
+        }
+    }
+
+    private void highlightMesh(Geometry geometry) {
+
+        clearHighlight();
+
+        if (geometry != null) {
+            ServiceManager.getService(JmeEngineService.class).enqueue(() -> {
+                this.highlightGeom = new Geometry("Mesh Highlight", geometry.getMesh());
+                this.highlightGeom.setLocalRotation(geometry.getWorldRotation());
+                this.highlightGeom.setLocalTranslation(geometry.getWorldTranslation());
+                this.highlightGeom.setLocalScale(geometry.getWorldScale());
+
+                this.highlightGeom.setMaterial(new Material(ServiceManager.getService(JmeEngineService.class).getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md"));
+                this.highlightGeom.getMaterial().getAdditionalRenderState().setLineWidth(2);
+                this.highlightGeom.getMaterial().getAdditionalRenderState().setWireframe(true);
+                this.highlightGeom.getMaterial().setColor("Color", ColorRGBA.Blue);
+
+                showHightlight();
+
+            });
+        }
     }
 
     @FXML
@@ -260,6 +368,11 @@ public class SceneExplorerService implements Service, Initializable {
 
     private TreeItem<Object> foundItem = null;
 
+    /**
+     * Recursively finds the treeItem associated with the given spatial.
+     * @param treeItem
+     * @param spatial
+     */
     private void traverseTreeForSpatial(TreeItem<Object> treeItem, Spatial spatial) {
 
         if (treeItem.getValue() == spatial) {
