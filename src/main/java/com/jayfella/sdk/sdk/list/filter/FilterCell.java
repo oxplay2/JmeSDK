@@ -52,7 +52,7 @@ public class FilterCell extends ListCell<SelectablePostProcessor> {
                 if (filter != null) {
                     // UniqueProperties uniqueProperties = new UniqueProperties(filter, "enabled");
                     UniquePropertyBuilder<Filter> builder = new UniquePropertyBuilder<>();
-                    builder.setObject(filter);
+                    builder.setObject(filter, "enabled", "name");
 
                     List<Component> components = builder.build();
 
@@ -62,7 +62,7 @@ public class FilterCell extends ListCell<SelectablePostProcessor> {
                     scrollPane.setContent(vBox);
 
                     for (Component component : components) {
-                        vBox.getChildren().add(component.getJfxControl());
+                        vBox.getChildren().add(component);
                     }
 
                     Scene scene = new Scene(scrollPane);
