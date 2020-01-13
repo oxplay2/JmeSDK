@@ -21,10 +21,20 @@ import java.util.List;
 public class MaterialPropertyBuilder implements ComponentSetBuilder<Material> {
 
     private Material material;
+    private String[] ignoredProperties = new String[0];
+
+    @Override
+    public void setObject(Material object, String... ignoredProperties) {
+        this.material = object;
+        this.ignoredProperties = ignoredProperties;
+    }
 
     @Override
     public void setObject(Material object) {
         this.material = object;
+        this.ignoredProperties = new String[] {
+                "ShadowMap0", "ShadowMap1", "ShadowMap2", "ShadowMap3", "ShadowMap4", "ShadowMap5"
+        };
     }
 
     @Override
@@ -42,6 +52,19 @@ public class MaterialPropertyBuilder implements ComponentSetBuilder<Material> {
         ListMap<String, MatParam> setParams = material.getParamsMap();
 
         for (MatParam matParam : allParams) {
+
+            boolean ignoreProperty = false;
+
+            for (String ignoredProperty: ignoredProperties) {
+                if (matParam.getName().equalsIgnoreCase(ignoredProperty)) {
+                    ignoreProperty = true;
+                    break;
+                }
+            }
+
+            if (ignoreProperty) {
+                continue;
+            }
 
             VarType varType = matParam.getVarType();
 

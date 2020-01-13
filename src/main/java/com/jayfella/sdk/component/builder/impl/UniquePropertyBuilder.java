@@ -39,6 +39,11 @@ public class UniquePropertyBuilder<T> implements ComponentSetBuilder<T> {
     }
 
     @Override
+    public void setObject(Object object, String... ignoredProperties) {
+        this.uniqueProperties = new UniqueProperties(object, ignoredProperties);
+    }
+
+    @Override
     public void setObject(Object object) {
         this.uniqueProperties = new UniqueProperties(object);
     }
