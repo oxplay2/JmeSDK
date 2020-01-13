@@ -41,3 +41,11 @@
 .component {
     -fx-font-size: 11px;
 }
+
+.openProject:hover {
+    -fx-background-color: blue;
+}
+
+.openProject:hover .label {
+    -fx-text-fill: white;
+}

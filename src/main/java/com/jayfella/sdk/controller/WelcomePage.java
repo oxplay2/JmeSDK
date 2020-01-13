@@ -3,6 +3,7 @@ package com.jayfella.sdk.controller;
 import com.jayfella.sdk.config.RecentProjects;
 import com.jayfella.sdk.dialog.CustomDirectoryChooser;
 import com.jayfella.sdk.project.Project;
+import com.jayfella.sdk.sdk.list.project.OpenProjectCellFactory;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,6 +15,7 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Path;
@@ -21,7 +23,7 @@ import java.util.ResourceBundle;
 
 public class WelcomePage implements Initializable {
 
-    @FXML private ListView<String> recentProjectsListView;
+    @FXML private ListView<File> recentProjectsListView;
     @FXML private GridPane gridPane;
 
     private MainPage primaryController;
@@ -29,9 +31,19 @@ public class WelcomePage implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+        recentProjectsListView.setCellFactory(new OpenProjectCellFactory());
+
         // File file = new File("recentprojects.json");
         RecentProjects recentProjects = RecentProjects.load();
-        recentProjectsListView.getItems().addAll(recentProjects.getRecentProjects());
+
+        // recentProjectsListView.getItems().addAll(recentProjects.getRecentProjects());
+        for (String project : recentProjects.getRecentProjects()) {
+
+            File file = new File(project);
+            recentProjectsListView.getItems().add(file);
+
+        }
+
 
         FXMLLoader backgroundTasksLoader = new FXMLLoader(getClass().getResource("/Interface/BackgroundTasksControl.fxml"));
 
@@ -48,11 +60,11 @@ public class WelcomePage implements Initializable {
 
             if (mouseEvent.getClickCount() == 2) {
 
-                String selectedItem = recentProjectsListView.getSelectionModel().getSelectedItem();
+                File selectedItem = recentProjectsListView.getSelectionModel().getSelectedItem();
 
                 if (selectedItem != null) {
 
-                    Project project = new Project(selectedItem);
+                    Project project = new Project(selectedItem.toString());
                     openProject(project);
                 }
 
