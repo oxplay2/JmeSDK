@@ -67,7 +67,7 @@
             <TextField fx:id="fovTextField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
          </children>
       </GridPane>
-      <Label text="Post Processors">
+      <Label text="Post Processors (drag to re-order)">
          <VBox.margin>
             <Insets top="20.0" />
          </VBox.margin>
