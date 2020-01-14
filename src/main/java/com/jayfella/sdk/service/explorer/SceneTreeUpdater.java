@@ -1,4 +1,4 @@
-package com.jayfella.sdk.service.scene;
+package com.jayfella.sdk.service.explorer;
 
 import com.jayfella.sdk.sdk.tree.scene.ControlTreeItem;
 import com.jayfella.sdk.sdk.tree.scene.GeometryTreeItem;
