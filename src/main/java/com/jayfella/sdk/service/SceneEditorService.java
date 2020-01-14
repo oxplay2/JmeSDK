@@ -83,6 +83,7 @@ public class SceneEditorService implements Service {
             engineService.enqueue(() -> engineService.getGuiNode().attachChild(loadedSceneObjectNode));
         }
 
+        ServiceManager.getService(SceneExplorerService.class).showHighlight();
     }
 
     public void disable() {
@@ -96,6 +97,7 @@ public class SceneEditorService implements Service {
             cameraDirection.set(engineService.getCamera().getDirection());
         });
 
+        ServiceManager.getService(SceneExplorerService.class).removeHighlight();
     }
 
     public void setAmbientLightAttached(boolean attached) {

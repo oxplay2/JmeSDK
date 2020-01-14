@@ -7,22 +7,17 @@ import com.jayfella.sdk.ext.registrar.spatial.SpatialRegistrar;
 import com.jayfella.sdk.sdk.editor.SpatialToolState;
 import com.jayfella.sdk.sdk.tree.scene.NodeTreeItem;
 import com.jayfella.sdk.sdk.tree.scene.SceneTreeCellFactory;
-import com.jayfella.sdk.service.scene.SceneTreePopulator;
-import com.jayfella.sdk.service.scene.SceneTreeUpdater;
+import com.jayfella.sdk.service.explorer.SceneTreePopulator;
+import com.jayfella.sdk.service.explorer.SceneTreeUpdater;
+import com.jayfella.sdk.service.explorer.SpatialHighlighter;
 import com.jme3.app.Application;
 import com.jme3.asset.AssetManager;
 import com.jme3.asset.ModelKey;
 import com.jme3.asset.plugins.FileLocator;
-import com.jme3.bounding.BoundingBox;
-import com.jme3.bounding.BoundingSphere;
 import com.jme3.export.binary.BinaryExporter;
-import com.jme3.material.Material;
-import com.jme3.math.ColorRGBA;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
-import com.jme3.scene.debug.WireBox;
-import com.jme3.scene.debug.WireSphere;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.ActionEvent;
@@ -60,6 +55,8 @@ public class SceneExplorerService implements Service, Initializable {
     // the updater updates an existing scene periodically(?).
     private final SceneTreePopulator treePopulator = new SceneTreePopulator();
     private final SceneTreeUpdater treeUpdater = new SceneTreeUpdater();
+
+    private SpatialHighlighter spatialHighlighter = new SpatialHighlighter();
 
     public SceneExplorerService() {
 
@@ -154,15 +151,15 @@ public class SceneExplorerService implements Service, Initializable {
                     });
 
                     if (spatial instanceof Node) {
-                        highlightBoundingShape(spatial);
+                        spatialHighlighter.highlightBoundingShape(spatial);
                     }
                     else {
                         Geometry geometry = (Geometry) spatial;
-                        highlightMesh(geometry);
+                        spatialHighlighter.highlightMesh(geometry);
                     }
                 }
                 else {
-                    deleteHighlight();
+                    spatialHighlighter.deleteHighlight();
                 }
             }
 
@@ -170,88 +167,12 @@ public class SceneExplorerService implements Service, Initializable {
 
     }
 
-    public void deleteHighlight() {
-        if (highlightGeom != null) {
-            ThreadRunner.runInJmeThread(() -> {
-                highlightGeom.removeFromParent();
-                highlightGeom = null;
-            });
-        }
+    public void showHighlight() {
+        spatialHighlighter.showHightlight();
     }
 
-    public void clearHighlight() {
-        if (highlightGeom != null) {
-            ThreadRunner.runInJmeThread(() -> highlightGeom.removeFromParent());
-
-        }
-    }
-
-    public void showHightlight() {
-        if (highlightGeom != null) {
-            JmeEngineService engineService = ServiceManager.getService(JmeEngineService.class);
-            ThreadRunner.runInJmeThread(() -> {
-                engineService.getRootNode().attachChild(highlightGeom);
-            });
-
-        }
-    }
-
-    private void highlightBoundingShape(Spatial spatial) {
-
-        clearHighlight();
-
-        if (spatial.getWorldBound() != null) {
-            ServiceManager.getService(JmeEngineService.class).enqueue(() -> {
-
-                if (spatial.getWorldBound() instanceof BoundingBox) {
-
-                    this.highlightGeom = WireBox.makeGeometry((BoundingBox) spatial.getWorldBound());
-
-                    this.highlightGeom.setMaterial(new Material(ServiceManager.getService(JmeEngineService.class).getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md"));
-                    this.highlightGeom.getMaterial().getAdditionalRenderState().setLineWidth(2);
-                    this.highlightGeom.getMaterial().getAdditionalRenderState().setWireframe(true);
-                    this.highlightGeom.getMaterial().setColor("Color", ColorRGBA.Blue);
-
-                    showHightlight();
-                }
-                else if (spatial.getWorldBound() instanceof BoundingSphere) {
-
-                    BoundingSphere boundingSphere = (BoundingSphere) spatial.getWorldBound();
-                    WireSphere wireSphere = new WireSphere(boundingSphere.getRadius());
-
-                    this.highlightGeom = new Geometry("Bounding Sphere Geometry", wireSphere);
-                    this.highlightGeom.setMaterial(new Material(ServiceManager.getService(JmeEngineService.class).getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md"));
-                    this.highlightGeom.getMaterial().getAdditionalRenderState().setLineWidth(2);
-                    this.highlightGeom.getMaterial().getAdditionalRenderState().setWireframe(true);
-                    this.highlightGeom.getMaterial().setColor("Color", ColorRGBA.Blue);
-
-                    showHightlight();
-                }
-
-            });
-        }
-    }
-
-    private void highlightMesh(Geometry geometry) {
-
-        clearHighlight();
-
-        if (geometry != null) {
-            ServiceManager.getService(JmeEngineService.class).enqueue(() -> {
-                this.highlightGeom = new Geometry("Mesh Highlight", geometry.getMesh());
-                this.highlightGeom.setLocalRotation(geometry.getWorldRotation());
-                this.highlightGeom.setLocalTranslation(geometry.getWorldTranslation());
-                this.highlightGeom.setLocalScale(geometry.getWorldScale());
-
-                this.highlightGeom.setMaterial(new Material(ServiceManager.getService(JmeEngineService.class).getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md"));
-                this.highlightGeom.getMaterial().getAdditionalRenderState().setLineWidth(2);
-                this.highlightGeom.getMaterial().getAdditionalRenderState().setWireframe(true);
-                this.highlightGeom.getMaterial().setColor("Color", ColorRGBA.Blue);
-
-                showHightlight();
-
-            });
-        }
+    public void removeHighlight() {
+        spatialHighlighter.removeHighlight();
     }
 
     @FXML

@@ -154,13 +154,11 @@ public class MainPage implements Initializable {
                 case "Scene Editor": {
                     ServiceManager.getService(AppStateService.class).disable();
                     ServiceManager.getService(SceneEditorService.class).enable();
-                    ServiceManager.getService(SceneExplorerService.class).showHightlight();
                     break;
                 }
                 case "AppStates": {
                     ServiceManager.getService(SceneEditorService.class).disable();
                     ServiceManager.getService(AppStateService.class).enable();
-                    ServiceManager.getService(SceneExplorerService.class).clearHighlight();
                     break;
                 }
             }
