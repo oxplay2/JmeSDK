@@ -61,7 +61,8 @@ public class MainPage implements Initializable {
         ServiceManager.registerService(ProjectInjectorService.class);
         ServiceManager.registerService(SceneExplorerService.class);
         ServiceManager.registerService(ProjectExplorerService.class);
-        ServiceManager.registerService(new InspectorService(inspectorAccordion));
+        // ServiceManager.registerService(new InspectorService(inspectorAccordion));
+        ServiceManager.registerService(new InspectorService2(inspectorAccordion));
 
         ServiceManager.registerService(SceneEditorService.class);
         ServiceManager.registerService(AppStateService.class);

@@ -2,7 +2,7 @@ package com.jayfella.sdk.sdk.editor;
 
 import com.jayfella.sdk.core.ServiceManager;
 import com.jayfella.sdk.core.ThreadRunner;
-import com.jayfella.sdk.service.InspectorService;
+import com.jayfella.sdk.service.InspectorService2;
 import com.jayfella.sdk.service.SceneExplorerService;
 import com.jme3.app.Application;
 import com.jme3.app.SimpleApplication;
@@ -82,7 +82,7 @@ public class SpatialSelectorState extends BaseAppState implements ActionListener
                 ServiceManager.getService(SceneExplorerService.class).setSelectedSpatial(geometry);
 
                 ThreadRunner.runInJfxThread(() -> {
-                    ServiceManager.getService(InspectorService.class).setObject(geometry);
+                    ServiceManager.getService(InspectorService2.class).setObject(geometry);
                 });
 
                 collisionResults.clear();

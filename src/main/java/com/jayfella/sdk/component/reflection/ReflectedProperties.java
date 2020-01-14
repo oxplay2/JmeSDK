@@ -1,4 +1,4 @@
-package com.jayfella.sdk.component.builder;
+package com.jayfella.sdk.component.reflection;
 
 import org.reflections.ReflectionUtils;
 
@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-public class UniqueProperties {
+public class ReflectedProperties {
 
     private Object object;
     private List<Method> getters = new ArrayList<>();
@@ -21,7 +21,7 @@ public class UniqueProperties {
      * @param object            the object to retrieve the getters and setters.
      * @param ignoredProperties properties that you want to ignore. For example "enabled".
      */
-    public UniqueProperties(Object object, String... ignoredProperties) {
+    public ReflectedProperties(Object object, String... ignoredProperties) {
         this.object = object;
         this.ignoredProperties = ignoredProperties;
         create();

@@ -1,6 +1,6 @@
 package com.jayfella.sdk.component;
 
-import com.jayfella.sdk.component.builder.ReflectedProperty;
+import com.jayfella.sdk.component.reflection.ReflectedProperty;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.VBox;
@@ -24,6 +24,7 @@ public abstract class Component extends VBox implements Initializable {
             this.reflectedProperty = new ReflectedProperty(parent, getter, setter, this);
         }
 
+        load();
     }
 
     protected void load(String resource) {

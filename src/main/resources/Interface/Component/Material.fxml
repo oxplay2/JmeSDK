@@ -19,6 +19,7 @@
             <Insets left="10.0" right="10.0" />
          </VBox.margin>
       </ComboBox>
+      <VBox fx:id="componentsVBox" VBox.vgrow="ALWAYS" />
    </children>
    <styleClass>
       <String fx:value="componentVBox" />

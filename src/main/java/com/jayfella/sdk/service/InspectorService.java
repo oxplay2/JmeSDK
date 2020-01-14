@@ -3,36 +3,24 @@ package com.jayfella.sdk.service;
 import com.jayfella.sdk.component.Component;
 import com.jayfella.sdk.component.DisposableComponent;
 import com.jayfella.sdk.component.builder.ComponentSetBuilder;
-import com.jayfella.sdk.component.builder.impl.MaterialPropertyBuilder;
-import com.jayfella.sdk.component.builder.impl.UniquePropertyBuilder;
 import com.jayfella.sdk.component.control.AnimComposerComponent;
 import com.jme3.anim.AnimComposer;
-import com.jme3.asset.AssetKey;
-import com.jme3.bounding.BoundingVolume;
-import com.jme3.material.Material;
-import com.jme3.math.Transform;
 import com.jme3.scene.control.Control;
 import javafx.scene.Parent;
 import javafx.scene.control.Accordion;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TitledPane;
-import javafx.scene.layout.VBox;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * Displays the properties of a given object in the properties window.
  * Properties are discovered using a ComponentSetBuilder.
+ * @deprecated - please use InspectorService2.class
  */
+
+@Deprecated
 public class InspectorService implements Service {
 
     private static final Logger log = LoggerFactory.getLogger(InspectorService.class);
@@ -51,7 +39,7 @@ public class InspectorService implements Service {
     public InspectorService(Accordion accordion) {
         this.accordion = accordion;
 
-        moduleBuilders.put(Material.class, new MaterialPropertyBuilder());
+        //moduleBuilders.put(Material.class, new MaterialComponentBuilder());
         customComponents.put(AnimComposer.class, AnimComposerComponent.class);
     }
 
@@ -75,6 +63,7 @@ public class InspectorService implements Service {
 
     public void setObject(Object object) {
 
+        /*
         for (TitledPane pane : accordion.getPanes()) {
             disposeComponents(pane);
         }
@@ -94,7 +83,7 @@ public class InspectorService implements Service {
             try {
                 Constructor<? extends Component> constructor = classCustomComponent.getConstructor();
                 component = constructor.newInstance();
-                component.load();
+                // component.load();
 
             } catch (InstantiationException | InvocationTargetException | NoSuchMethodException | IllegalAccessException e) {
                 // e.printStackTrace();
@@ -125,11 +114,11 @@ public class InspectorService implements Service {
         else {
 
             // Obtain a list of unique getters and setters
-            UniquePropertyBuilder<Object> uniquePropertyBuilder = new UniquePropertyBuilder<>();
-            uniquePropertyBuilder.setObject(object);
+            ReflectedComponentBuilder<Object> reflectedComponentBuilder = new ReflectedComponentBuilder<>();
+            reflectedComponentBuilder.setObject(object);
 
             // build a list of components to edit the getters/setters
-            List<Component> components = uniquePropertyBuilder.build();
+            List<Component> components = reflectedComponentBuilder.build();
 
             if (!components.isEmpty()) {
 
@@ -164,7 +153,7 @@ public class InspectorService implements Service {
 
             for (Map.Entry<Class<?>, ComponentSetBuilder<?>> entry : moduleBuilders.entrySet()) {
 
-                List<Method> methods = uniquePropertyBuilder.getUniqueProperties().getGetters().stream()
+                List<Method> methods = reflectedComponentBuilder.getReflectedProperties().getGetters().stream()
                         .filter(getter -> getter.getReturnType() == entry.getKey())
                         .collect(Collectors.toList());
 
@@ -212,7 +201,7 @@ public class InspectorService implements Service {
 
             }
 
-            Map<Class<?>, Class<? extends Component>> componentClasses = uniquePropertyBuilder.getComponentClasses();
+            Map<Class<?>, Class<? extends Component>> componentClasses = reflectedComponentBuilder.getComponentClasses();
 
             // unwanted things
             List<Class<?>> unwantedClasses = new ArrayList<>();
@@ -225,7 +214,7 @@ public class InspectorService implements Service {
             // - registered modules
             // - enums because we deal with them already.
             // - unwanted classes
-            List<Method> unregisteredGetters = uniquePropertyBuilder.getUniqueProperties().getGetters()
+            List<Method> unregisteredGetters = reflectedComponentBuilder.getReflectedProperties().getGetters()
                     .stream()
                     .filter(getter -> !componentClasses.containsKey(getter.getReturnType()))
                     .filter(getter -> !moduleBuilders.containsKey(getter.getReturnType()))
@@ -251,7 +240,7 @@ public class InspectorService implements Service {
                     continue;
                 }
 
-                UniquePropertyBuilder<Object> unregisteredPropsBuilder = new UniquePropertyBuilder<>();
+                ReflectedComponentBuilder<Object> unregisteredPropsBuilder = new ReflectedComponentBuilder<>();
                 unregisteredPropsBuilder.setObject(obj);
 
                 TitledPane titledPane = new TitledPane();
@@ -283,6 +272,8 @@ public class InspectorService implements Service {
             accordion.getPanes().get(0).setExpanded(true);
         }
 
+
+         */
     }
 
     @Override

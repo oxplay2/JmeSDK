@@ -1,7 +1,7 @@
 package com.jayfella.sdk.sdk.list.filter;
 
 import com.jayfella.sdk.component.Component;
-import com.jayfella.sdk.component.builder.impl.UniquePropertyBuilder;
+import com.jayfella.sdk.component.builder.impl.ReflectedComponentBuilder;
 import com.jayfella.sdk.controller.list.PostProcessorItem;
 import com.jayfella.sdk.core.SelectablePostProcessor;
 import com.jayfella.sdk.core.ServiceManager;
@@ -51,7 +51,7 @@ public class FilterCell extends ListCell<SelectablePostProcessor> {
 
                 if (filter != null) {
                     // UniqueProperties uniqueProperties = new UniqueProperties(filter, "enabled");
-                    UniquePropertyBuilder<Filter> builder = new UniquePropertyBuilder<>();
+                    ReflectedComponentBuilder<Filter> builder = new ReflectedComponentBuilder<>();
                     builder.setObject(filter, "enabled", "name");
 
                     List<Component> components = builder.build();

@@ -1,8 +1,8 @@
 package com.jayfella.sdk.component.builder.impl;
 
 import com.jayfella.sdk.component.*;
-import com.jayfella.sdk.component.builder.ComponentSetBuilder;
-import com.jayfella.sdk.component.builder.UniqueProperties;
+import com.jayfella.sdk.component.builder.ComponentBuilder;
+import com.jayfella.sdk.component.reflection.ReflectedProperties;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Quaternion;
@@ -17,12 +17,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class UniquePropertyBuilder<T> implements ComponentSetBuilder<T> {
+public class ReflectedComponentBuilder<T> implements ComponentBuilder<T> {
 
     private final Map<Class<?>, Class<? extends Component>> componentClasses = new HashMap<>();
-    private UniqueProperties uniqueProperties;
+    private ReflectedProperties reflectedProperties;
 
-    public UniquePropertyBuilder() {
+    public ReflectedComponentBuilder() {
 
         componentClasses.put(boolean.class, BooleanComponent.class);
         componentClasses.put(ColorRGBA.class, ColorRgbaComponent.class);
@@ -42,23 +42,24 @@ public class UniquePropertyBuilder<T> implements ComponentSetBuilder<T> {
 
     @Override
     public void setObject(Object object, String... ignoredProperties) {
-        this.uniqueProperties = new UniqueProperties(object, ignoredProperties);
+        this.reflectedProperties = new ReflectedProperties(object, ignoredProperties);
     }
 
     @Override
     public void setObject(Object object) {
-        this.uniqueProperties = new UniqueProperties(object);
+        this.reflectedProperties = new ReflectedProperties(object);
     }
 
-    public UniqueProperties getUniqueProperties() {
-        return uniqueProperties;
+    public ReflectedProperties getReflectedProperties() {
+        return reflectedProperties;
     }
 
     public List<Component> build() {
 
         List<Component> components = new ArrayList<>();
 
-        for (Method getter : uniqueProperties.getGetters()) {
+
+        for (Method getter : reflectedProperties.getGetters()) {
 
             Map.Entry<Class<?>, Class<? extends Component>> entry = componentClasses.entrySet().stream()
                     .filter(c -> getter.getReturnType() == c.getKey() || ( getter.getReturnType().isEnum() && c.getKey() == Enum.class ) )
@@ -67,12 +68,12 @@ public class UniquePropertyBuilder<T> implements ComponentSetBuilder<T> {
 
             if (entry != null) {
 
-                Method setter = uniqueProperties.getSetters().stream()
+                Method setter = reflectedProperties.getSetters().stream()
                         .filter(s -> {
                             // s.getName().substring(3).equalsIgnoreCase(getter.getName().substring(3))
 
-                            String getterSuffix = UniqueProperties.getSuffix(getter.getName());
-                            String setterSuffix = UniqueProperties.getSuffix(s.getName());
+                            String getterSuffix = ReflectedProperties.getSuffix(getter.getName());
+                            String setterSuffix = ReflectedProperties.getSuffix(s.getName());
 
                             return getterSuffix.equalsIgnoreCase(setterSuffix);
                         })
@@ -83,10 +84,10 @@ public class UniquePropertyBuilder<T> implements ComponentSetBuilder<T> {
 
                     Class<? extends Component> componentClass = entry.getValue();
                     Constructor<? extends Component> constructor = componentClass.getConstructor(Object.class, Method.class, Method.class);
-                    Component component = constructor.newInstance(uniqueProperties.getObject(), getter, setter);
-                    component.load();
+                    Component component = constructor.newInstance(reflectedProperties.getObject(), getter, setter);
+                    // component.load();
                     // component.setPropertyName(getter.getName().substring(3));
-                    component.setPropertyName(UniqueProperties.getSuffix(getter.getName()));
+                    component.setPropertyName(ReflectedProperties.getSuffix(getter.getName()));
 
 
                     // we have a special case for enums

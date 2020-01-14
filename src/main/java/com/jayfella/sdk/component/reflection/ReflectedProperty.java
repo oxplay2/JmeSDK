@@ -1,4 +1,4 @@
-package com.jayfella.sdk.component.builder;
+package com.jayfella.sdk.component.reflection;
 
 import com.jayfella.sdk.component.Component;
 import com.jayfella.sdk.core.ThreadRunner;

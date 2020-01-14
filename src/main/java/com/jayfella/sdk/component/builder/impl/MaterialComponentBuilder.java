@@ -1,7 +1,7 @@
 package com.jayfella.sdk.component.builder.impl;
 
 import com.jayfella.sdk.component.*;
-import com.jayfella.sdk.component.builder.ComponentSetBuilder;
+import com.jayfella.sdk.component.builder.ComponentBuilder;
 import com.jme3.material.MatParam;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
@@ -18,7 +18,7 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 
-public class MaterialPropertyBuilder implements ComponentSetBuilder<Material> {
+public class MaterialComponentBuilder implements ComponentBuilder<Material> {
 
     private Material material;
     private String[] ignoredProperties = new String[0];
@@ -182,7 +182,7 @@ public class MaterialPropertyBuilder implements ComponentSetBuilder<Material> {
         }
 
         // Component component = new BooleanComponent();
-        component.load();
+        // component.load();
         component.setPropertyName(matParam.getName());
 
         // set the value of the component if one is found.

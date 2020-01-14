@@ -103,7 +103,7 @@ public class SceneExplorerService implements Service, Initializable {
 
             if (treeItem != null && treeItem.getValue() != null) {
 
-                ServiceManager.getService(InspectorService.class).setObject(treeItem.getValue());
+                ServiceManager.getService(InspectorService2.class).setObject(treeItem.getValue());
 
                 if (treeItem.getValue() instanceof Spatial) {
 
@@ -224,7 +224,7 @@ public class SceneExplorerService implements Service, Initializable {
         }
 
         ServiceManager.getService(SceneEditorService.class).clearScene();
-        ServiceManager.getService(InspectorService.class).setObject(null);
+        ServiceManager.getService(InspectorService2.class).setObject(null);
 
         sceneOpen.setValue(false);
 
