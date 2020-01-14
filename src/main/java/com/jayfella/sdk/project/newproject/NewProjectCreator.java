@@ -192,7 +192,7 @@ public class NewProjectCreator {
 
         // update the "recent projects"
         RecentProjects recentProjects = RecentProjects.load();
-        recentProjects.getRecentProjects().add(projectPath);
+        recentProjects.getRecentProjects().add(0, projectPath); // insert it into the first slot.
         recentProjects.save();
         // open the project.
 
