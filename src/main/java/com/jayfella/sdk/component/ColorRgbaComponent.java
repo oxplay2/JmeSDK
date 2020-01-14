@@ -1,15 +1,11 @@
 package com.jayfella.sdk.component;
 
-import com.jayfella.sdk.core.ServiceManager;
 import com.jayfella.sdk.core.ThreadRunner;
-import com.jayfella.sdk.service.JmeEngineService;
 import com.jme3.math.ColorRGBA;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.scene.Parent;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
 import java.lang.reflect.Method;
@@ -22,7 +18,7 @@ public class ColorRgbaComponent extends Component {
     @FXML private ColorPicker colorPicker;
 
     public ColorRgbaComponent() {
-        super(null, null, null);
+        super();
     }
 
     public ColorRgbaComponent(Object parent, Method getter, Method setter) {
@@ -65,6 +61,7 @@ public class ColorRgbaComponent extends Component {
 
     @Override
     public void setValue(Object value) {
+        super.setValue(value);
 
         ColorRGBA colorRGBA = (ColorRGBA) value;
 

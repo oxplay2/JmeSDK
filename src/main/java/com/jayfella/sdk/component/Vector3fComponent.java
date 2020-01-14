@@ -6,10 +6,8 @@ import com.jme3.math.Vector3f;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
-import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.VBox;
 
 import java.lang.reflect.Method;
 import java.net.URL;
@@ -23,7 +21,7 @@ public class Vector3fComponent extends Component implements UpdatableComponent {
     @FXML private TextField zTextField;
 
     public Vector3fComponent() {
-        super(null, null, null);
+        super();
     }
 
     public Vector3fComponent(Object parent, Method getter, Method setter) {
@@ -95,6 +93,7 @@ public class Vector3fComponent extends Component implements UpdatableComponent {
 
     @Override
     public void setValue(Object value) {
+        super.setValue(value);
 
         Vector3f vector3f = (Vector3f) value;
 

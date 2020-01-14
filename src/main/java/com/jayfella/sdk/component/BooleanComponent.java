@@ -3,10 +3,8 @@ package com.jayfella.sdk.component;
 import com.jayfella.sdk.core.ThreadRunner;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.scene.Parent;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
-import javafx.scene.layout.VBox;
 
 import java.lang.reflect.Method;
 import java.net.URL;
@@ -18,7 +16,7 @@ public class BooleanComponent extends Component {
     @FXML private CheckBox checkBox;
 
     public BooleanComponent() {
-        super(null, null, null);
+        super();
     }
 
     public BooleanComponent(Object parent, Method getter, Method setter) {
@@ -58,6 +56,7 @@ public class BooleanComponent extends Component {
 
     @Override
     public void setValue(Object value) {
+        super.setValue(value);
 
         boolean booleanValue = (boolean) value;
 

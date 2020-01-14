@@ -1,14 +1,10 @@
 package com.jayfella.sdk.component;
 
-import com.jayfella.sdk.core.ServiceManager;
 import com.jayfella.sdk.core.ThreadRunner;
-import com.jayfella.sdk.service.JmeEngineService;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.scene.Parent;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.layout.VBox;
 
 import java.lang.reflect.Method;
 import java.net.URL;
@@ -19,6 +15,10 @@ public class EnumComponent extends Component {
 
     @FXML private Label titleLabel;
     @FXML private ComboBox<Enum> comboBox;
+
+    public EnumComponent() {
+        super();
+    }
 
     public EnumComponent(Object parent, Method getter, Method setter) {
         super(parent, getter, setter);
@@ -58,6 +58,7 @@ public class EnumComponent extends Component {
 
     @Override
     public void setValue(Object value) {
+        super.setValue(value);
 
         Enum enumValue = (Enum) value;
 

@@ -5,10 +5,8 @@ import com.jayfella.sdk.core.ThreadRunner;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
-import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.VBox;
 
 import java.lang.reflect.Method;
 import java.net.URL;
@@ -20,7 +18,7 @@ public class IntegerComponent extends Component {
     @FXML private TextField textField;
 
     public IntegerComponent() {
-        super(null, null, null);
+        super();
     }
 
     public IntegerComponent(Object parent, Method getter, Method setter) {
@@ -68,6 +66,7 @@ public class IntegerComponent extends Component {
 
     @Override
     public void setValue(Object value) {
+        super.setValue(value);
 
         int intValue = (int) value;
 

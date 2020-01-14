@@ -6,10 +6,8 @@ import com.jme3.math.Vector4f;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
-import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.VBox;
 
 import java.lang.reflect.Method;
 import java.net.URL;
@@ -24,7 +22,7 @@ public class Vector4fComponent extends Component {
     @FXML private TextField wTextField;
 
     public Vector4fComponent() {
-        super(null, null, null);
+        super();
     }
 
     public Vector4fComponent(Object parent, Method getter, Method setter) {
@@ -94,6 +92,7 @@ public class Vector4fComponent extends Component {
 
     @Override
     public void setValue(Object value) {
+        super.setValue(value);
 
         Vector4f vector4f = (Vector4f) value;
 

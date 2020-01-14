@@ -11,7 +11,6 @@ import com.jme3.texture.Texture2D;
 import com.jme3.texture.image.ImageRaster;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.scene.Parent;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -45,7 +44,7 @@ public class Texture2dComponent extends Component {
     @FXML private ComboBox<Texture.WrapMode> wrapModeVertComboBox;
 
     public Texture2dComponent() {
-        super(null, null, null);
+        super();
     }
 
     public Texture2dComponent(Object parent, Method getter, Method setter) {
@@ -218,6 +217,7 @@ public class Texture2dComponent extends Component {
 
     @Override
     public void setValue(Object value) {
+        super.setValue(value);
 
         Texture2D texture2D = (Texture2D) value;
 

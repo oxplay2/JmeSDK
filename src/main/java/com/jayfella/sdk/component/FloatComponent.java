@@ -18,7 +18,7 @@ public class FloatComponent extends Component {
     @FXML private TextField textField;
 
     public FloatComponent() {
-        super(null, null, null);
+        super();
     }
 
     public FloatComponent(Object parent, Method getter, Method setter) {
@@ -67,6 +67,7 @@ public class FloatComponent extends Component {
 
     @Override
     public void setValue(Object value) {
+        super.setValue(value);
 
         float floatValue = (float) value;
 

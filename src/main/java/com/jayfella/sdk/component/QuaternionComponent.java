@@ -6,10 +6,8 @@ import com.jme3.math.Quaternion;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
-import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.VBox;
 
 import java.lang.reflect.Method;
 import java.net.URL;
@@ -23,7 +21,7 @@ public class QuaternionComponent extends Component {
     @FXML private TextField zTextField;
 
     public QuaternionComponent() {
-        super(null, null, null);
+        super();
     }
 
     public QuaternionComponent(Object parent, Method getter, Method setter) {
@@ -92,6 +90,7 @@ public class QuaternionComponent extends Component {
 
     @Override
     public void setValue(Object value) {
+        super.setValue(value);
 
         Quaternion quaternion = (Quaternion) value;
         float[] euler = quaternion.toAngles(null);
