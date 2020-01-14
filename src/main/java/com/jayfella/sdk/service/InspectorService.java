@@ -41,10 +41,12 @@ public class InspectorService implements Service {
     // for example a Material has its own dropdown.
     // A module cannot be registered as a component.
     private Map<Class<?>, ComponentSetBuilder<?>> moduleBuilders = new HashMap<>();
+
+    // a list of classes that will override the default reflection builder.
+    // for example an AnimComposer needs its own component.
     private Map<Class<? extends Control>, Class<? extends Component>> customComponents = new HashMap<>();
 
     private final Accordion accordion;
-    // private final UniquePropertyBuilder inspectorBuilder;
 
     public InspectorService(Accordion accordion) {
         this.accordion = accordion;
@@ -122,7 +124,6 @@ public class InspectorService implements Service {
         }
         else {
 
-
             // Obtain a list of unique getters and setters
             UniquePropertyBuilder<Object> uniquePropertyBuilder = new UniquePropertyBuilder<>();
             uniquePropertyBuilder.setObject(object);
@@ -167,12 +168,13 @@ public class InspectorService implements Service {
                         .filter(getter -> getter.getReturnType() == entry.getKey())
                         .collect(Collectors.toList());
 
-                if (!methods.isEmpty()) {
+
+                for (int i = 0; i < methods.size(); i++) {
 
                     Object obj;
 
                     try {
-                        obj = methods.get(0).invoke(object);
+                        obj = methods.get(i).invoke(object);
                     } catch (IllegalAccessException | InvocationTargetException e) {
                         // e.printStackTrace();
                         continue;
@@ -205,11 +207,12 @@ public class InspectorService implements Service {
 
                     accordion.getPanes().add(titledPane);
                     // titledPane.setExpanded(true);
+
                 }
+
             }
 
             Map<Class<?>, Class<? extends Component>> componentClasses = uniquePropertyBuilder.getComponentClasses();
-
 
             // unwanted things
             List<Class<?>> unwantedClasses = new ArrayList<>();
@@ -274,6 +277,8 @@ public class InspectorService implements Service {
 
         }
 
+        // expand the first titled pane.
+        // This is especially important if there's only one titled pane. It looks empty otherwise.
         if (!accordion.getPanes().isEmpty()) {
             accordion.getPanes().get(0).setExpanded(true);
         }
