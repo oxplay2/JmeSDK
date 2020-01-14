@@ -36,14 +36,11 @@ public class WelcomePage implements Initializable {
         // File file = new File("recentprojects.json");
         RecentProjects recentProjects = RecentProjects.load();
 
-        // recentProjectsListView.getItems().addAll(recentProjects.getRecentProjects());
         for (String project : recentProjects.getRecentProjects()) {
 
             File file = new File(project);
             recentProjectsListView.getItems().add(file);
-
         }
-
 
         FXMLLoader backgroundTasksLoader = new FXMLLoader(getClass().getResource("/Interface/BackgroundTasksControl.fxml"));
 
@@ -64,8 +61,13 @@ public class WelcomePage implements Initializable {
 
                 if (selectedItem != null) {
 
+                    recentProjects.getRecentProjects().remove(recentProjectsListView.getSelectionModel().getSelectedIndex());
+                    recentProjects.getRecentProjects().add(0, selectedItem.getAbsolutePath());
+                    recentProjects.save();
+
                     Project project = new Project(selectedItem.toString());
                     openProject(project);
+
                 }
 
             }
@@ -106,9 +108,15 @@ public class WelcomePage implements Initializable {
 
         if (path != null) {
 
+            RecentProjects recentProjects = RecentProjects.load();
+            recentProjects.getRecentProjects().remove(path.toAbsolutePath().toString());
+            recentProjects.getRecentProjects().add(0, path.toAbsolutePath().toString());
+            recentProjects.save();
+
             Project project = new Project(path.toString());
             openProject(project);
         }
+
     }
 
     public void setPrimaryController(MainPage primaryController) {
