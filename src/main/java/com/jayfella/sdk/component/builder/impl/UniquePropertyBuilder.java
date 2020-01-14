@@ -3,6 +3,7 @@ package com.jayfella.sdk.component.builder.impl;
 import com.jayfella.sdk.component.*;
 import com.jayfella.sdk.component.builder.ComponentSetBuilder;
 import com.jayfella.sdk.component.builder.UniqueProperties;
+import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
@@ -28,6 +29,7 @@ public class UniquePropertyBuilder<T> implements ComponentSetBuilder<T> {
         componentClasses.put(Enum.class, EnumComponent.class);
         componentClasses.put(float.class, FloatComponent.class);
         componentClasses.put(int.class, IntegerComponent.class);
+        componentClasses.put(Material.class, MaterialComponent.class);
         componentClasses.put(String.class, StringComponent.class);
         componentClasses.put(Vector3f.class, Vector3fComponent.class);
         componentClasses.put(Vector4f.class, Vector4fComponent.class);
