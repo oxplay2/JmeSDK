@@ -33,7 +33,8 @@ public class MaterialComponentBuilder implements ComponentBuilder<Material> {
     public void setObject(Material object) {
         this.material = object;
         this.ignoredProperties = new String[] {
-                "ShadowMap0", "ShadowMap1", "ShadowMap2", "ShadowMap3", "ShadowMap4", "ShadowMap5"
+                "ShadowMap0", "ShadowMap1", "ShadowMap2", "ShadowMap3", "ShadowMap4", "ShadowMap5",
+                "lightDir", "lightPos"
         };
     }
 
