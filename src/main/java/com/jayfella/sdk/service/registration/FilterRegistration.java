@@ -6,6 +6,7 @@ import com.jayfella.sdk.ext.registrar.ClassRegistrar;
 import com.jayfella.sdk.ext.registrar.filter.FilterRegistrar;
 import com.jayfella.sdk.ext.registrar.filter.NoArgsFilterRegistrar;
 import com.jayfella.sdk.registrar.DirectionalLightShadowFilterRegistrar;
+import com.jayfella.sdk.registrar.TranslucentBucketFilterRegistrar;
 import com.jayfella.sdk.service.JmeEngineService;
 import com.jme3.post.Filter;
 import com.jme3.post.FilterPostProcessor;
@@ -41,7 +42,8 @@ public class FilterRegistration {
         registerFilter(NoArgsFilterRegistrar.create(WaterFilter.class));
         registerFilter(NoArgsFilterRegistrar.create(ToneMapFilter.class));
         registerFilter(NoArgsFilterRegistrar.create(FXAAFilter.class));
-        registerFilter(NoArgsFilterRegistrar.create(TranslucentBucketFilter.class));
+        // registerFilter(NoArgsFilterRegistrar.create(TranslucentBucketFilter.class));
+        registerFilter(new TranslucentBucketFilterRegistrar());
 
         // We can't know the order of external post-processors, so we provide them user with a sortable
         // list that allows them to move filters up and down.
