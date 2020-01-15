@@ -230,6 +230,7 @@ public class MainPage implements Initializable {
 
                     ServiceManager.getService(ProjectInjectorService.class).inject();
                     ServiceManager.getService(ProjectExplorerService.class).populateProjectFilesTreeView();
+                    ServiceManager.getService(InspectorService2.class).updateSpatialRegistrations();
 
                     populateAppStatesListView();
                 }
