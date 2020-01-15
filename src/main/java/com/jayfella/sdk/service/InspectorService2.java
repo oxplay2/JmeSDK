@@ -8,6 +8,8 @@ import com.jayfella.sdk.component.builder.ComponentSetBuilder;
 import com.jayfella.sdk.component.builder.impl.AnimComposetComponentSetBuilder;
 import com.jayfella.sdk.component.builder.impl.ReflectedComponentBuilder;
 import com.jayfella.sdk.component.builder.impl.SpatialComponentSetBuilder;
+import com.jayfella.sdk.core.ServiceManager;
+import com.jayfella.sdk.ext.registrar.spatial.SpatialRegistrar;
 import com.jme3.anim.AnimComposer;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
@@ -17,10 +19,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.VBox;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class InspectorService2 implements Service {
 
@@ -35,6 +34,17 @@ public class InspectorService2 implements Service {
         componentSetBuilders.put(Node.class, new SpatialComponentSetBuilder<Node>());
         componentSetBuilders.put(Geometry.class, new SpatialComponentSetBuilder<Geometry>());
         componentSetBuilders.put(AnimComposer.class, new AnimComposetComponentSetBuilder<AnimComposer>());
+    }
+
+    public void updateSpatialRegistrations() {
+
+        RegistrationService registrationService = ServiceManager.getService(RegistrationService.class);
+        Set<SpatialRegistrar> spatialRegistrars = registrationService.getSpatialRegistration().getRegisteredSpatials();
+
+        for (SpatialRegistrar registrar : spatialRegistrars) {
+            componentSetBuilders.put(registrar.getRegisteredClass(), new SpatialComponentSetBuilder<>());
+        }
+
     }
 
     private TitledPane createTitledPane(String title, Collection<Component> components) {
