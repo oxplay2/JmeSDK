@@ -13,16 +13,16 @@ import javafx.stage.StageStyle;
 
 import java.io.IOException;
 
-public class NewSceneDialog {
+public class CreateFolderDialog {
 
     private Stage stage;
 
     @FXML private TextField textField;
-    private String sceneName = null;
+    private String folderName = null;
 
     public boolean showAndWait() {
 
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/JavaFx/Dialog/CreateScene.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/JavaFx/Dialog/CreateFolder.fxml"));
         fxmlLoader.setController(this);
 
         Parent root = null;
@@ -44,11 +44,11 @@ public class NewSceneDialog {
 
         stage.showAndWait();
 
-        return sceneName != null;
+        return folderName != null;
     }
 
-    public String getSceneName() {
-        return sceneName;
+    public String getFolderName() {
+        return folderName;
     }
 
     @FXML
@@ -57,15 +57,16 @@ public class NewSceneDialog {
         if (event.getCode().equals(KeyCode.ENTER)) {
 
             if (!textField.getText().isBlank()) {
-                sceneName = textField.getText().trim();
+                folderName = textField.getText().trim();
                 stage.close();
             }
 
         }
         else if (event.getCode().equals(KeyCode.ESCAPE)) {
-            sceneName = null;
+            folderName = null;
             stage.close();
         }
 
     }
+
 }

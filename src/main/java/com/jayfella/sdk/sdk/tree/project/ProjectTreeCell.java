@@ -1,9 +1,6 @@
 package com.jayfella.sdk.sdk.tree.project;
 
 import javafx.scene.control.TreeCell;
-import javafx.scene.control.TreeItem;
-import javafx.scene.control.TreeView;
-import javafx.scene.input.*;
 
 import java.io.File;
 
@@ -28,6 +25,10 @@ public class ProjectTreeCell extends TreeCell<Object> {
 
                 Class<?> itemClass = (Class<?>) item;
                 text = itemClass.getSimpleName();
+            }
+            else if (item instanceof String) {
+                String string = (String) item;
+                text = string;
             }
 
             setText(text);

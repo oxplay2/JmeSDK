@@ -100,12 +100,12 @@ public class ProjectExplorerService implements Service, Initializable {
         // we need to read from the JAR.
 
         // Spatials
-        FolderTreeItem spatialsFolderTreeItem = new FolderTreeItem(new File("Spatials"));
+        FakeFolderTreeItem spatialsFolderTreeItem = new FakeFolderTreeItem("Spatials");
         root.getChildren().add(spatialsFolderTreeItem);
         findSpatials(spatialsFolderTreeItem);
 
         // Controls
-        FolderTreeItem controlsFolderTreeItem = new FolderTreeItem(new File("Controls"));
+        FakeFolderTreeItem controlsFolderTreeItem = new FakeFolderTreeItem("Controls");
         root.getChildren().add(controlsFolderTreeItem);
         findControls(controlsFolderTreeItem);
 
@@ -118,7 +118,7 @@ public class ProjectExplorerService implements Service, Initializable {
         traverseProjectFileSystem(resourcesFolderTreeItem, Project.getOpenProject().getResourcesRoot().toFile());
     }
 
-    private void findControls(FolderTreeItem treeItem) {
+    private void findControls(ProjectTreeItem treeItem) {
 
         ControlRegistration controlRegistration = ServiceManager.getService(RegistrationService.class).getControlRegistration();
 
@@ -131,7 +131,7 @@ public class ProjectExplorerService implements Service, Initializable {
         }
     }
 
-    private void findSpatials(FolderTreeItem treeItem) {
+    private void findSpatials(ProjectTreeItem treeItem) {
 
         SpatialRegistration spatialRegistration = ServiceManager.getService(RegistrationService.class).getSpatialRegistration();
 
@@ -145,7 +145,7 @@ public class ProjectExplorerService implements Service, Initializable {
 
     }
 
-    public void traverseProjectFileSystem(FolderTreeItem treeItem, File parent) {
+    public void traverseProjectFileSystem(ProjectTreeItem treeItem, File parent) {
 
         if (parent.isDirectory()) {
 
