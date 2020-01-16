@@ -26,14 +26,30 @@ public class CompileProjectBackgroundTask extends BackgroundTask {
 
         String projectPath = Project.getOpenProject().getProjectPath();
 
+        String[] command = null;
+
         if (SystemUtils.IS_OS_LINUX) {
+            command = new String[] {"bash", "-c", "./gradlew shadowJar"};
+        }
+        else if (SystemUtils.IS_OS_WINDOWS) {
+            command = new String[] {"cmd", "/c", "./gradlew shadowJar"};
+        }
+        else {
+            log.info("Operating System not implemented yet.");
+        }
+
+        if (command != null) {
 
             log.info("Compiling project.");
             setStatus("Compiling project...");
 
             ProcessBuilder processBuilder = new ProcessBuilder();
             processBuilder.directory(new File(projectPath + "//"));
-            processBuilder.command("bash", "-c", "./gradlew shadowJar");
+            processBuilder.command(command);
+
+            processBuilder.redirectInput(ProcessBuilder.Redirect.INHERIT);
+            processBuilder.redirectOutput(ProcessBuilder.Redirect.INHERIT);
+            processBuilder.redirectError(ProcessBuilder.Redirect.INHERIT);
 
             try {
 
@@ -69,9 +85,7 @@ public class CompileProjectBackgroundTask extends BackgroundTask {
                 return;
             }
         }
-        else {
-            log.info("Operating System not implemented yet.");
-        }
+
 
         // copy the compiled lib to "./dist" as "dist.jar
 
