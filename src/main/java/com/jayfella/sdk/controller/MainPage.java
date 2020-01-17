@@ -1,14 +1,18 @@
 package com.jayfella.sdk.controller;
 
 import com.jayfella.sdk.core.BindableAppState;
-import com.jayfella.sdk.core.ServiceManager;
 import com.jayfella.sdk.core.background.BackgroundTask;
 import com.jayfella.sdk.core.background.BackgroundTaskListener;
 import com.jayfella.sdk.core.tasks.CompileProjectBackgroundTask;
+import com.jayfella.sdk.ext.core.ServiceManager;
+import com.jayfella.sdk.ext.service.JmeEngineService;
+import com.jayfella.sdk.ext.service.ProjectInjectorService;
 import com.jayfella.sdk.jfx.EditorFxImageView;
 import com.jayfella.sdk.project.Project;
 import com.jayfella.sdk.sdk.AppStateListViewCell;
 import com.jayfella.sdk.service.*;
+import com.jayfella.sdk.service.impl.ProjectInjectorServiceImpl;
+import com.jayfella.sdk.service.impl.RegistrationServiceImpl;
 import com.jme3.app.state.AppState;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -58,7 +62,7 @@ public class MainPage implements Initializable {
 
         mainStage.setTitle(Project.getOpenProject().getGradleSettings().getRootProjectName() + " - JmonkeyEngine SDK");
 
-        ServiceManager.registerService(ProjectInjectorService.class);
+        ServiceManager.registerService(ProjectInjectorServiceImpl.class);
         ServiceManager.registerService(SceneExplorerService.class);
         ServiceManager.registerService(ProjectExplorerService.class);
         // ServiceManager.registerService(new InspectorService(inspectorAccordion));
@@ -66,7 +70,7 @@ public class MainPage implements Initializable {
 
         ServiceManager.registerService(SceneEditorService.class);
         ServiceManager.registerService(AppStateService.class);
-        ServiceManager.registerService(RegistrationService.class);
+        ServiceManager.registerService(RegistrationServiceImpl.class);
 
         sceneEditorTab.setContent(ServiceManager.getService(SceneExplorerService.class).getJfxControl());
         projectFilesAnchorPane.getChildren().add(ServiceManager.getService(ProjectExplorerService.class).getJfxControl());
@@ -79,7 +83,7 @@ public class MainPage implements Initializable {
         JmeEngineService engineService = ServiceManager.getService(JmeEngineService.class);
 
         // the imageview that will display the JME Scene
-        EditorFxImageView imageView = engineService.getImageView();
+        EditorFxImageView imageView = (EditorFxImageView) engineService.getImageView();
 
         StackPane stackPane = new StackPane();
         stackPane.getChildren().add(imageView);
@@ -230,7 +234,12 @@ public class MainPage implements Initializable {
 
                     ServiceManager.getService(ProjectInjectorService.class).inject();
                     ServiceManager.getService(ProjectExplorerService.class).populateProjectFilesTreeView();
+
                     ServiceManager.getService(InspectorService2.class).updateSpatialRegistrations();
+                    ServiceManager.getService(InspectorService2.class).updateComponentSetBuilders();
+
+                    ServiceManager.getService(JmeEngineService.class).getFilterManager().updateRegistrations();
+                    // ServiceManager.getService(JmeEngineService.class).getFilterManager().refreshFilters();
 
                     populateAppStatesListView();
                 }

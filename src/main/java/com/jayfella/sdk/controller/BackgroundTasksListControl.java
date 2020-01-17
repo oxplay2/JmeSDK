@@ -1,7 +1,7 @@
 package com.jayfella.sdk.controller;
 
-import com.jayfella.sdk.core.ServiceManager;
 import com.jayfella.sdk.core.background.BackgroundTask;
+import com.jayfella.sdk.ext.core.ServiceManager;
 import com.jayfella.sdk.service.BackgroundTaskService;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

@@ -1,6 +1,6 @@
 package com.jayfella.sdk.jfx;
 
-import com.jayfella.sdk.core.ThreadRunner;
+import com.jayfella.sdk.ext.core.ThreadRunner;
 import com.jayfella.sdk.jme.JmeOffscreenSurfaceContext;
 import com.jme3.cursors.plugins.JmeCursor;
 import com.jme3.input.MouseInput;

@@ -1,12 +1,13 @@
 package com.jayfella.sdk.service;
 
-import com.jayfella.sdk.core.ServiceManager;
+import com.jayfella.sdk.ext.core.Service;
+import com.jayfella.sdk.ext.core.ServiceManager;
+import com.jayfella.sdk.ext.registrar.Registrar;
 import com.jayfella.sdk.ext.registrar.control.ControlRegistrar;
 import com.jayfella.sdk.ext.registrar.spatial.SpatialRegistrar;
+import com.jayfella.sdk.ext.service.RegistrationService;
 import com.jayfella.sdk.project.Project;
 import com.jayfella.sdk.sdk.tree.project.*;
-import com.jayfella.sdk.service.registration.ControlRegistration;
-import com.jayfella.sdk.service.registration.SpatialRegistration;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -120,9 +121,9 @@ public class ProjectExplorerService implements Service, Initializable {
 
     private void findControls(ProjectTreeItem treeItem) {
 
-        ControlRegistration controlRegistration = ServiceManager.getService(RegistrationService.class).getControlRegistration();
+        Registrar<ControlRegistrar> controlRegistration = ServiceManager.getService(RegistrationService.class).getControlRegistration();
 
-        for (ControlRegistrar registrar : controlRegistration.getRegisteredControls()) {
+        for (ControlRegistrar registrar : controlRegistration.getRegistrations()) {
 
             ControlTreeItem controlTreeItem = new ControlTreeItem(registrar.getRegisteredClass());
             treeItem.getChildren().add(controlTreeItem);
@@ -133,9 +134,9 @@ public class ProjectExplorerService implements Service, Initializable {
 
     private void findSpatials(ProjectTreeItem treeItem) {
 
-        SpatialRegistration spatialRegistration = ServiceManager.getService(RegistrationService.class).getSpatialRegistration();
+        Registrar<SpatialRegistrar> spatialRegistration = ServiceManager.getService(RegistrationService.class).getSpatialRegistration();
 
-        for (SpatialRegistrar registrar : spatialRegistration.getRegisteredSpatials()) {
+        for (SpatialRegistrar registrar : spatialRegistration.getRegistrations()) {
 
             SpatialTreeItem spatialTreeItem = new SpatialTreeItem(registrar.getRegisteredClass());
             treeItem.getChildren().add(spatialTreeItem);

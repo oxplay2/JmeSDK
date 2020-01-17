@@ -1,13 +1,11 @@
 package com.jayfella.sdk.controller;
 
-import com.jayfella.sdk.core.FloatTextFormatter;
 import com.jayfella.sdk.core.SelectablePostProcessor;
-import com.jayfella.sdk.core.ServiceManager;
-import com.jayfella.sdk.ext.registrar.filter.FilterRegistrar;
+import com.jayfella.sdk.ext.core.FilterManager;
+import com.jayfella.sdk.ext.core.FloatTextFormatter;
+import com.jayfella.sdk.ext.core.ServiceManager;
+import com.jayfella.sdk.ext.service.JmeEngineService;
 import com.jayfella.sdk.sdk.list.filter.FilterCellFactory;
-import com.jayfella.sdk.service.JmeEngineService;
-import com.jayfella.sdk.service.RegistrationService;
-import com.jayfella.sdk.service.registration.FilterRegistration;
 import com.jme3.material.TechniqueDef;
 import com.jme3.post.Filter;
 import com.jme3.post.FilterPostProcessor;
@@ -18,11 +16,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 
 import java.net.URL;
-import java.util.List;
-import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
-import java.util.stream.Collectors;
 
 public class SceneConfiguration implements Initializable {
 
@@ -128,14 +124,13 @@ public class SceneConfiguration implements Initializable {
 
         postProcessorsListView.getItems().clear();
 
-        FilterRegistration filterRegistration = ServiceManager.getService(RegistrationService.class).getFilterRegistration();
+        // FilterRegistration filterRegistration = ServiceManager.getService(RegistrationService.class).getFilterRegistration();
+        // Map<FilterRegistrar, Filter> map = filterRegistration.getRegisteredFilters();
 
-        Map<FilterRegistrar, Filter> map = filterRegistration.getRegisteredFilters();
-
+        FilterManager filterManager = ServiceManager.getService(JmeEngineService.class).getFilterManager();
         FilterPostProcessor fpp = ServiceManager.getService(JmeEngineService.class).getFilterPostProcessor();
-
-        List<Class<? extends Filter>> classList = map.keySet().stream().map(FilterRegistrar::getRegisteredClass).collect(Collectors.toList());
-
+        // List<Class<? extends Filter>> classList = map.keySet().stream().map(FilterRegistrar::getRegisteredClass).collect(Collectors.toList());
+        Set<Class<? extends Filter>> classList = filterManager.getFilters().keySet();
 
         for (Class<? extends Filter> clazz : classList) {
             // System.out.println(clazz.getSimpleName());

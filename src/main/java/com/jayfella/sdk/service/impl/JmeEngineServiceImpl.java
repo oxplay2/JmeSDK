@@ -1,8 +1,9 @@
-package com.jayfella.sdk.service;
+package com.jayfella.sdk.service.impl;
 
-
+import com.jayfella.sdk.ext.core.FilterManager;
 import com.jayfella.sdk.ext.core.PowerLevel;
 import com.jayfella.sdk.ext.graphics.AnistropicFilterAssetListener;
+import com.jayfella.sdk.ext.service.JmeEngineService;
 import com.jayfella.sdk.jfx.EditorFxImageView;
 import com.jayfella.sdk.jfx.FrameTransferSceneProcessor;
 import com.jayfella.sdk.jfx.ImageViewFrameTransferSceneProcessor;
@@ -11,7 +12,6 @@ import com.jayfella.sdk.jme.EditorCameraState;
 import com.jayfella.sdk.jme.JmeOffscreenSurfaceContext;
 import com.jayfella.sdk.sdk.editor.SpatialSelectorState;
 import com.jayfella.sdk.sdk.editor.SpatialToolState;
-import com.jme3.app.SimpleApplication;
 import com.jme3.audio.AudioListenerState;
 import com.jme3.environment.EnvironmentCamera;
 import com.jme3.material.TechniqueDef;
@@ -22,21 +22,17 @@ import com.jme3.renderer.queue.RenderQueue;
 import com.jme3.system.AppSettings;
 import org.apache.log4j.Logger;
 
-
-public class JmeEngineService extends SimpleApplication implements Service {
+public class JmeEngineServiceImpl extends JmeEngineService {
 
     private static final Logger log = Logger.getLogger(JmeEngineService.class);
     private static Thread jmeThread = null;
 
     private JmeOffscreenSurfaceContext canvasContext;
+    private FilterManager filterManager = new FilterManager();
 
-    public JmeEngineService() {
+    public JmeEngineServiceImpl() {
         super(
-                new EditorCameraState(),    // our camera movement in the editor
-                new EnvironmentCamera(),    // used for probe generation. I'm not certain we want this right now...
-                new AudioListenerState(),   // required for positional audio.
-                new SpatialSelectorState(),
-                new SpatialToolState()      // select & transform spatials.
+
         );
 
         AppSettings settings = new AppSettings(true);
@@ -58,6 +54,7 @@ public class JmeEngineService extends SimpleApplication implements Service {
 
     }
 
+    @Override
     public void startEngine() {
         canvasContext = (JmeOffscreenSurfaceContext) getContext();
         canvasContext.setSystemListener(this);
@@ -66,6 +63,7 @@ public class JmeEngineService extends SimpleApplication implements Service {
 
     private boolean initialized = false;
 
+    @Override
     public boolean isInitialized() {
         return initialized;
     }
@@ -78,6 +76,14 @@ public class JmeEngineService extends SimpleApplication implements Service {
     public void simpleInitApp() {
 
         jmeThread = Thread.currentThread();
+
+        stateManager.attachAll(
+                new EditorCameraState(),    // our camera movement in the editor
+                new EnvironmentCamera(),    // used for probe generation. I'm not certain we want this right now...
+                new AudioListenerState(),   // required for positional audio.
+                new SpatialSelectorState(),
+                new SpatialToolState()      // select & transform spatials.
+        );
 
         // Configure the scene for PBR
         getRenderManager().setPreferredLightMode(TechniqueDef.LightMode.SinglePassAndImageBased);
@@ -134,8 +140,14 @@ public class JmeEngineService extends SimpleApplication implements Service {
         sceneProcessor.setTransferMode(FrameTransferSceneProcessor.TransferMode.ON_CHANGES);
     }
 
+    @Override
     public EditorFxImageView getImageView() {
         return imageView;
+    }
+
+    @Override
+    public FilterManager getFilterManager() {
+        return filterManager;
     }
 
     @Override
@@ -148,6 +160,7 @@ public class JmeEngineService extends SimpleApplication implements Service {
         stop();
     }
 
+    @Override
     public FilterPostProcessor getFilterPostProcessor() {
         return this.fpp;
     }
@@ -160,6 +173,7 @@ public class JmeEngineService extends SimpleApplication implements Service {
      * To get around this, we just create a new one with the new post-processors.
      * @param fpp the FilterPostProcessor to display, with all required filters already added.
      */
+    @Override
     public void setFilterPostProcessor(FilterPostProcessor fpp) {
 
         if (this.fpp != null) {
@@ -174,9 +188,7 @@ public class JmeEngineService extends SimpleApplication implements Service {
 
     }
 
-    public static boolean isJmeThread() {
-        return Thread.currentThread() == jmeThread;
-    }
+
 
     /*
     private void getResolutionsLWJGL3() {
@@ -204,6 +216,5 @@ public class JmeEngineService extends SimpleApplication implements Service {
     }
 
      */
-
 
 }

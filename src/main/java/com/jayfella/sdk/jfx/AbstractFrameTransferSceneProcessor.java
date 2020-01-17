@@ -1,6 +1,6 @@
 package com.jayfella.sdk.jfx;
 
-import com.jayfella.sdk.service.JmeEngineService;
+import com.jayfella.sdk.ext.service.JmeEngineService;
 import com.jayfella.sdk.jme.JmeOffscreenSurfaceContext;
 import com.jme3.profile.AppProfiler;
 import com.jme3.renderer.RenderManager;

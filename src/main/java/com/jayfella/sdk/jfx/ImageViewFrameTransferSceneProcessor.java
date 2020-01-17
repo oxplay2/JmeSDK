@@ -1,6 +1,6 @@
 package com.jayfella.sdk.jfx;
 
-import com.jayfella.sdk.service.JmeEngineService;
+import com.jayfella.sdk.ext.service.JmeEngineService;
 import com.jme3.post.SceneProcessor;
 import com.jme3.texture.FrameBuffer;
 import javafx.scene.Node;

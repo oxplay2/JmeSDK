@@ -1,9 +1,10 @@
 package com.jayfella.sdk.service;
 
-import com.jayfella.sdk.component.Component;
-import com.jayfella.sdk.component.DisposableComponent;
-import com.jayfella.sdk.component.builder.ComponentSetBuilder;
-import com.jayfella.sdk.component.control.AnimComposerComponent;
+import com.jayfella.sdk.ext.component.Component;
+import com.jayfella.sdk.ext.component.DisposableComponent;
+import com.jayfella.sdk.ext.component.builder.ComponentSetBuilder;
+import com.jayfella.sdk.ext.component.control.AnimComposerComponent;
+import com.jayfella.sdk.ext.core.Service;
 import com.jme3.anim.AnimComposer;
 import com.jme3.scene.control.Control;
 import javafx.scene.Parent;

@@ -1,6 +1,6 @@
 package com.jayfella.sdk.sdk.tree.scene;
 
-import com.jayfella.sdk.core.ThreadRunner;
+import com.jayfella.sdk.ext.core.ThreadRunner;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.control.Control;
 import javafx.scene.control.ContextMenu;

@@ -1,7 +1,8 @@
 package com.jayfella.sdk.core;
 
-import com.jayfella.sdk.service.RegistrationService;
-import com.jayfella.sdk.service.registration.FilterRegistration;
+import com.jayfella.sdk.ext.core.FilterManager;
+import com.jayfella.sdk.ext.core.ServiceManager;
+import com.jayfella.sdk.ext.service.JmeEngineService;
 import com.jme3.post.Filter;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -38,8 +39,9 @@ public class SelectablePostProcessor {
     public void setEnabled(boolean enabled) {
         this.enabled.setValue(enabled);
 
-        FilterRegistration filterRegistration = ServiceManager.getService(RegistrationService.class).getFilterRegistration();
-        filterRegistration.setEnabled(filterClass, enabled);
-        filterRegistration.refreshFilters();
+        // Registrar<FilterRegistrar> filterRegistration = ServiceManager.getService(RegistrationService.class).getFilterRegistration();
+        FilterManager filterManager = ServiceManager.getService(JmeEngineService.class).getFilterManager();
+        filterManager.setEnabled(filterClass, enabled);
+        filterManager.refreshFilters();
     }
 }

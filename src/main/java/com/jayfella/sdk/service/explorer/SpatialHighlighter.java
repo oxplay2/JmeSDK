@@ -1,8 +1,8 @@
 package com.jayfella.sdk.service.explorer;
 
-import com.jayfella.sdk.core.ServiceManager;
-import com.jayfella.sdk.core.ThreadRunner;
-import com.jayfella.sdk.service.JmeEngineService;
+import com.jayfella.sdk.ext.core.ServiceManager;
+import com.jayfella.sdk.ext.core.ThreadRunner;
+import com.jayfella.sdk.ext.service.JmeEngineService;
 import com.jme3.bounding.BoundingBox;
 import com.jme3.bounding.BoundingSphere;
 import com.jme3.material.Material;

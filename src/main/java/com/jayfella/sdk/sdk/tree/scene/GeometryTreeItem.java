@@ -1,6 +1,6 @@
 package com.jayfella.sdk.sdk.tree.scene;
 
-import com.jayfella.sdk.core.ThreadRunner;
+import com.jayfella.sdk.ext.core.ThreadRunner;
 import com.jme3.scene.Geometry;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;

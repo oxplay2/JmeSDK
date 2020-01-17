@@ -1,6 +1,7 @@
 package com.jayfella.sdk.service;
 
 import com.jayfella.sdk.core.background.BackgroundTask;
+import com.jayfella.sdk.ext.core.Service;
 import javafx.application.Platform;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;

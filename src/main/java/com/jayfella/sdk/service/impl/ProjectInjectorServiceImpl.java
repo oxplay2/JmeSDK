@@ -1,7 +1,10 @@
-package com.jayfella.sdk.service;
+package com.jayfella.sdk.service.impl;
 
-import com.jayfella.sdk.core.ExternalClassLoader;
-import com.jayfella.sdk.core.ServiceManager;
+import com.jayfella.sdk.ext.core.ExternalClassLoader;
+import com.jayfella.sdk.ext.core.ServiceManager;
+import com.jayfella.sdk.ext.service.JmeEngineService;
+import com.jayfella.sdk.ext.service.ProjectInjectorService;
+import com.jayfella.sdk.ext.service.RegistrationService;
 import com.jayfella.sdk.project.Project;
 import com.jme3.app.state.AppState;
 import org.apache.log4j.Logger;
@@ -15,17 +18,13 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.*;
 
-/**
- * Contains methods related to reflection and project injection.
- * Anything that we "pull" from the project is done here.
- */
-public class ProjectInjectorService implements Service {
+public class ProjectInjectorServiceImpl extends ProjectInjectorService {
 
     private static final Logger log = Logger.getLogger(ProjectInjectorService.class);
 
     private ExternalClassLoader externalClassLoader;
 
-    public ProjectInjectorService() {
+    public ProjectInjectorServiceImpl() {
     }
 
     public ExternalClassLoader getExternalClassLoader() {

@@ -1,20 +1,21 @@
 package com.jayfella.sdk.component.builder.impl;
 
-import com.jayfella.sdk.component.*;
-import com.jayfella.sdk.component.builder.AbstractComponentSetBuilder;
+import com.jayfella.sdk.ext.component.*;
+import com.jayfella.sdk.ext.component.builder.ReflectedComponentBuilder;
 import com.jme3.material.Material;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.queue.RenderQueue;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
+import com.jme3.scene.Spatial;
 import javafx.scene.control.TitledPane;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SpatialComponentSetBuilder<Spatial> extends AbstractComponentSetBuilder<Spatial> {
+public class SpatialComponentSetBuilder<T> extends AbstractComponentSetBuilder<Spatial> {
 
     private Spatial object;
     private String[] ignoredProperties = new String[0];

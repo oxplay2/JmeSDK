@@ -1,11 +1,11 @@
 package com.jayfella.sdk.sdk.list.filter;
 
-import com.jayfella.sdk.component.Component;
-import com.jayfella.sdk.component.builder.impl.ReflectedComponentBuilder;
 import com.jayfella.sdk.controller.list.PostProcessorItem;
 import com.jayfella.sdk.core.SelectablePostProcessor;
-import com.jayfella.sdk.core.ServiceManager;
-import com.jayfella.sdk.service.RegistrationService;
+import com.jayfella.sdk.ext.component.Component;
+import com.jayfella.sdk.ext.component.builder.ReflectedComponentBuilder;
+import com.jayfella.sdk.ext.core.ServiceManager;
+import com.jayfella.sdk.ext.service.JmeEngineService;
 import com.jme3.post.Filter;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -47,7 +47,8 @@ public class FilterCell extends ListCell<SelectablePostProcessor> {
 
             postProcessorItem.getConfigButton().setOnAction(event -> {
 
-                Filter filter = ServiceManager.getService(RegistrationService.class).getFilterRegistration().getFilterInstance(item.getFilterClass());
+                // Filter filter = ServiceManager.getService(RegistrationService.class).getFilterRegistration().getFilterInstance(item.getFilterClass());
+                Filter filter = ServiceManager.getService(JmeEngineService.class).getFilterManager().getFilterInstance(item.getFilterClass());
 
                 if (filter != null) {
                     // UniqueProperties uniqueProperties = new UniqueProperties(filter, "enabled");

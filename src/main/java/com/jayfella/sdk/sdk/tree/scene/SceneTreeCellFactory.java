@@ -1,19 +1,18 @@
 package com.jayfella.sdk.sdk.tree.scene;
 
 import com.jayfella.sdk.core.DnDFormat;
-import com.jayfella.sdk.core.ServiceManager;
-import com.jayfella.sdk.core.ThreadRunner;
+import com.jayfella.sdk.ext.core.ServiceManager;
+import com.jayfella.sdk.ext.core.ThreadRunner;
 import com.jayfella.sdk.ext.registrar.control.ControlRegistrar;
 import com.jayfella.sdk.ext.registrar.spatial.SpatialRegistrar;
-import com.jayfella.sdk.service.JmeEngineService;
-import com.jayfella.sdk.service.ProjectInjectorService;
-import com.jayfella.sdk.service.RegistrationService;
+import com.jayfella.sdk.ext.service.JmeEngineService;
+import com.jayfella.sdk.ext.service.ProjectInjectorService;
+import com.jayfella.sdk.ext.service.RegistrationService;
 import com.jayfella.sdk.service.SceneExplorerService;
 import com.jme3.export.Savable;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.control.Control;
-import javafx.css.PseudoClass;
 import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
@@ -183,7 +182,7 @@ public class SceneTreeCellFactory implements Callback<TreeView<Object>, TreeCell
 
                 ControlRegistrar registrar = ServiceManager.getService(RegistrationService.class)
                         .getControlRegistration()
-                        .getRegisteredControls()
+                        .getRegistrations()
                         .stream()
                         .filter(controlRegistrar -> controlRegistrar.getRegisteredClass().equals(draggedClass))
                         .findFirst()
@@ -216,7 +215,7 @@ public class SceneTreeCellFactory implements Callback<TreeView<Object>, TreeCell
 
                 SpatialRegistrar registrar = ServiceManager.getService(RegistrationService.class)
                         .getSpatialRegistration()
-                        .getRegisteredSpatials()
+                        .getRegistrations()
                         .stream()
                         .filter(spatialRegistrar -> spatialRegistrar.getRegisteredClass().equals(draggedClass))
                         .findFirst()

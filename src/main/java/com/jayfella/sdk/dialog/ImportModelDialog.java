@@ -1,6 +1,6 @@
 package com.jayfella.sdk.dialog;
 
-import com.jayfella.sdk.core.AlphaNumericTextFormatter;
+import com.jayfella.sdk.ext.core.AlphaNumericTextFormatter;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;

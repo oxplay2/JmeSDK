@@ -1,9 +1,9 @@
 package com.jayfella.sdk.controller;
 
-import com.jayfella.sdk.core.ServiceManager;
-import com.jayfella.sdk.core.ThreadRunner;
+import com.jayfella.sdk.ext.core.ServiceManager;
+import com.jayfella.sdk.ext.core.ThreadRunner;
+import com.jayfella.sdk.ext.service.JmeEngineService;
 import com.jayfella.sdk.sdk.editor.SpatialToolState;
-import com.jayfella.sdk.service.JmeEngineService;
 import com.jayfella.sdk.service.SceneEditorService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

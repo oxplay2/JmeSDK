@@ -1,8 +1,9 @@
 package com.jayfella.sdk.controller;
 
 import com.jayfella.sdk.config.RecentProjects;
-import com.jayfella.sdk.core.ServiceManager;
-import com.jayfella.sdk.service.JmeEngineService;
+import com.jayfella.sdk.ext.core.ServiceManager;
+import com.jayfella.sdk.ext.service.JmeEngineService;
+import com.jayfella.sdk.service.impl.JmeEngineServiceImpl;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -41,7 +42,7 @@ public class SplashScreen implements Initializable {
         // To get around this we call the createCanvas() method AFTER the constructor.
 
         new Thread(new ThreadGroup("LWJGL"), () -> {
-            ServiceManager.registerService(JmeEngineService.class);
+            ServiceManager.registerService(JmeEngineServiceImpl.class);
             ServiceManager.getService(JmeEngineService.class).startEngine();
         }, "LWJGL Render").start();
 

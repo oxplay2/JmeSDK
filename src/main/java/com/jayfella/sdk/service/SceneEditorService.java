@@ -1,7 +1,9 @@
 package com.jayfella.sdk.service;
 
-import com.jayfella.sdk.core.ServiceManager;
-import com.jayfella.sdk.core.ThreadRunner;
+import com.jayfella.sdk.ext.core.Service;
+import com.jayfella.sdk.ext.core.ServiceManager;
+import com.jayfella.sdk.ext.core.ThreadRunner;
+import com.jayfella.sdk.ext.service.JmeEngineService;
 import com.jme3.light.AmbientLight;
 import com.jme3.light.DirectionalLight;
 import com.jme3.light.Light;

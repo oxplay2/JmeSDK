@@ -3,10 +3,9 @@ package com.jayfella.sdk.sdk.list.filter;
 import com.jayfella.sdk.controller.SceneConfiguration;
 import com.jayfella.sdk.core.DnDFormat;
 import com.jayfella.sdk.core.SelectablePostProcessor;
-import com.jayfella.sdk.core.ServiceManager;
-import com.jayfella.sdk.ext.registrar.filter.FilterRegistrar;
-import com.jayfella.sdk.service.RegistrationService;
-import com.jayfella.sdk.service.registration.FilterRegistration;
+import com.jayfella.sdk.ext.core.FilterManager;
+import com.jayfella.sdk.ext.core.ServiceManager;
+import com.jayfella.sdk.ext.service.JmeEngineService;
 import com.jme3.post.Filter;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
@@ -91,25 +90,29 @@ public class FilterCellFactory implements Callback<ListView<SelectablePostProces
                 // int dragIndex = listView.getItems().indexOf(draggedItem.getItem());
                 // FilterPostProcessor fpp = ServiceManager.getService(JmeEngineService.class).getFilterPostProcessor();
 
-                FilterRegistration filterRegistration = ServiceManager.getService(RegistrationService.class).getFilterRegistration();
+                // Registrar<FilterRegistrar> filterRegistration = ServiceManager.getService(RegistrationService.class).getFilterRegistration();
+                FilterManager filterManager = ServiceManager.getService(JmeEngineService.class).getFilterManager();
 
-                FilterRegistrar filterRegistrar = null;
+                // FilterRegistrar filterRegistrar = null;
+                Class<? extends Filter> filterClass = null;
                 Filter filter = null;
 
-                for (Map.Entry<FilterRegistrar, Filter> entry : filterRegistration.getRegisteredFilters().entrySet()) {
+                for (Map.Entry<Class<? extends Filter>, Filter> entry : filterManager.getFilters().entrySet()) {
 
-                    if (entry.getKey().getRegisteredClass().isAssignableFrom(draggedItem.getItem().getFilterClass())) {
-                        filterRegistrar = entry.getKey();
+                    if (entry.getKey().isAssignableFrom(draggedItem.getItem().getFilterClass())) {
+                        // filterRegistrar = entry.getKey();
+                        filterClass = entry.getKey();
                         filter = entry.getValue();
                         break;
                     }
                 }
 
-                filterRegistration.getRegisteredFilters().remove(filterRegistrar);
-                filterRegistration.getRegisteredFilters().put(hoveredIndex, filterRegistrar, filter);
+
+                filterManager.getFilters().remove(filterClass);
+                filterManager.getFilters().put(hoveredIndex, filterClass, filter);
 
                 sceneConfiguration.populatePostProcessors();
-                filterRegistration.refreshFilters(); // refresh the filters (re-load in the new order).
+                filterManager.refreshFilters(); // refresh the filters (re-load in the new order).
 
 
                 event.setDropCompleted(true);

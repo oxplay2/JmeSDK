@@ -1,6 +1,6 @@
 package com.jayfella.sdk.jfx;
 
-import com.jayfella.sdk.core.ThreadRunner;
+import com.jayfella.sdk.ext.core.ThreadRunner;
 import com.jayfella.sdk.jme.JmeOffscreenSurfaceContext;
 import com.jme3.input.KeyInput;
 import com.jme3.input.event.KeyInputEvent;

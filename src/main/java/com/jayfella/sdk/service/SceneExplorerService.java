@@ -1,9 +1,12 @@
 package com.jayfella.sdk.service;
 
-import com.jayfella.sdk.core.ServiceManager;
-import com.jayfella.sdk.core.ThreadRunner;
+import com.jayfella.sdk.ext.core.Service;
+import com.jayfella.sdk.ext.core.ServiceManager;
+import com.jayfella.sdk.ext.core.ThreadRunner;
 import com.jayfella.sdk.ext.registrar.Selectable;
 import com.jayfella.sdk.ext.registrar.spatial.SpatialRegistrar;
+import com.jayfella.sdk.ext.service.JmeEngineService;
+import com.jayfella.sdk.ext.service.RegistrationService;
 import com.jayfella.sdk.sdk.editor.SpatialToolState;
 import com.jayfella.sdk.sdk.tree.scene.NodeTreeItem;
 import com.jayfella.sdk.sdk.tree.scene.SceneTreeCellFactory;
@@ -111,7 +114,7 @@ public class SceneExplorerService implements Service, Initializable {
                     Class<?> selectedItemClass = treeItem.getValue().getClass();
 
                     SpatialRegistrar registrar = ServiceManager.getService(RegistrationService.class).getSpatialRegistration()
-                            .getRegisteredSpatials()
+                            .getRegistrations()
                             .stream()
                             .filter(spatialRegistrar -> spatialRegistrar.getRegisteredClass() == selectedItemClass)
                             .findFirst()
@@ -247,7 +250,8 @@ public class SceneExplorerService implements Service, Initializable {
 
         populateSceneTree(model);
         ServiceManager.getService(SceneEditorService.class).attachScene(model);
-        ServiceManager.getService(RegistrationService.class).getFilterRegistration().refreshFilters();
+        // ServiceManager.getService(RegistrationService.class).getFilterRegistration().refreshFilters();
+        ServiceManager.getService(JmeEngineService.class).getFilterManager().refreshFilters();
     }
 
     public void populateSceneTree(Node parent) {

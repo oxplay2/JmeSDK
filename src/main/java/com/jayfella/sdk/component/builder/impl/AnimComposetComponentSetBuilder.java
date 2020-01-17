@@ -1,8 +1,8 @@
 package com.jayfella.sdk.component.builder.impl;
 
-import com.jayfella.sdk.component.Component;
-import com.jayfella.sdk.component.builder.AbstractComponentSetBuilder;
-import com.jayfella.sdk.component.control.AnimComposerComponent;
+import com.jayfella.sdk.ext.component.AbstractComponentSetBuilder;
+import com.jayfella.sdk.ext.component.Component;
+import com.jayfella.sdk.ext.component.control.AnimComposerComponent;
 import javafx.scene.control.TitledPane;
 
 import java.util.ArrayList;

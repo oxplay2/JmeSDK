@@ -1,9 +1,9 @@
 package com.jayfella.sdk.model;
 
 import com.google.common.io.Files;
-import com.jayfella.sdk.core.ServiceManager;
+import com.jayfella.sdk.ext.core.ServiceManager;
+import com.jayfella.sdk.ext.service.JmeEngineService;
 import com.jayfella.sdk.model.gltf.GltfExtrasLoader;
-import com.jayfella.sdk.service.JmeEngineService;
 import com.jme3.scene.Spatial;
 import org.apache.log4j.Logger;
 

@@ -6,21 +6,19 @@ import com.jayfella.sdk.controller.MainPage;
 import com.jayfella.sdk.controller.SplashScreen;
 import com.jayfella.sdk.core.FolderStructure;
 import com.jayfella.sdk.core.LogUtil;
-import com.jayfella.sdk.core.ServiceManager;
-import com.jayfella.sdk.service.BackgroundTaskService;
 import com.jayfella.sdk.core.tasks.GradleDownloadTask;
+import com.jayfella.sdk.ext.core.ServiceManager;
+import com.jayfella.sdk.ext.service.JmeEngineService;
 import com.jayfella.sdk.jfx.EditorFxImageView;
 import com.jayfella.sdk.jme.EditorCameraState;
-import com.jayfella.sdk.service.JmeEngineService;
+import com.jayfella.sdk.service.BackgroundTaskService;
 import com.jme3.util.LWJGLBufferAllocator;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
-import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.apache.log4j.Level;
@@ -82,7 +80,7 @@ public class JfxMain extends Application {
         SplashScreen splashController = splashLoader.getController();
 
 
-        Rectangle2D primScreenBounds = Screen.getPrimary().getVisualBounds();
+        // Rectangle2D primScreenBounds = Screen.getPrimary().getVisualBounds();
         Stage splashStage = new Stage(StageStyle.UNDECORATED);
         splashStage.setScene(new Scene(splashRoot, 640, 400));
         splashStage.centerOnScreen();
@@ -95,6 +93,8 @@ public class JfxMain extends Application {
         primaryStage.initStyle(StageStyle.DECORATED);
         primaryStage.setScene(new Scene(root, userSettings.getWindowWidth(), userSettings.getWindowHeight()));
         primaryStage.setOnHidden(event -> Platform.exit());
+
+        primaryStage.getScene().getStylesheets().add("/style.css");
 
         /*
         ObservableList<String> stylesheets = primaryStage.getScene().getStylesheets();

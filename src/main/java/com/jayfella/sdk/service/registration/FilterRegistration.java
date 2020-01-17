@@ -1,13 +1,13 @@
 package com.jayfella.sdk.service.registration;
 
-import com.jayfella.sdk.core.ServiceManager;
-import com.jayfella.sdk.core.ThreadRunner;
+import com.jayfella.sdk.ext.core.ServiceManager;
+import com.jayfella.sdk.ext.core.ThreadRunner;
 import com.jayfella.sdk.ext.registrar.ClassRegistrar;
 import com.jayfella.sdk.ext.registrar.filter.FilterRegistrar;
 import com.jayfella.sdk.ext.registrar.filter.NoArgsFilterRegistrar;
+import com.jayfella.sdk.ext.service.JmeEngineService;
 import com.jayfella.sdk.registrar.DirectionalLightShadowFilterRegistrar;
 import com.jayfella.sdk.registrar.TranslucentBucketFilterRegistrar;
-import com.jayfella.sdk.service.JmeEngineService;
 import com.jme3.post.Filter;
 import com.jme3.post.FilterPostProcessor;
 import com.jme3.post.filters.*;

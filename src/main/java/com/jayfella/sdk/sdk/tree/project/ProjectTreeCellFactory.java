@@ -1,12 +1,12 @@
 package com.jayfella.sdk.sdk.tree.project;
 
 import com.jayfella.sdk.core.DnDFormat;
-import com.jayfella.sdk.core.ServiceManager;
 import com.jayfella.sdk.dialog.Alerts;
 import com.jayfella.sdk.dialog.ImportModelDialog;
+import com.jayfella.sdk.ext.core.ServiceManager;
+import com.jayfella.sdk.ext.service.JmeEngineService;
 import com.jayfella.sdk.model.ModelImporter;
 import com.jayfella.sdk.project.Project;
-import com.jayfella.sdk.service.JmeEngineService;
 import com.jayfella.sdk.service.ProjectExplorerService;
 import com.jme3.asset.AssetManager;
 import com.jme3.asset.plugins.FileLocator;

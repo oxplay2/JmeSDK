@@ -1,7 +1,7 @@
 package com.jayfella.sdk.sdk.editor;
 
-import com.jayfella.sdk.core.ServiceManager;
-import com.jayfella.sdk.core.ThreadRunner;
+import com.jayfella.sdk.ext.core.ServiceManager;
+import com.jayfella.sdk.ext.core.ThreadRunner;
 import com.jayfella.sdk.service.InspectorService2;
 import com.jayfella.sdk.service.SceneExplorerService;
 import com.jme3.app.Application;

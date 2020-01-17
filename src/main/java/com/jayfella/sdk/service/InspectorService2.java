@@ -1,15 +1,19 @@
 package com.jayfella.sdk.service;
 
-import com.jayfella.sdk.component.Component;
-import com.jayfella.sdk.component.DisposableComponent;
-import com.jayfella.sdk.component.UpdatableComponent;
-import com.jayfella.sdk.component.builder.ComponentBuilder;
-import com.jayfella.sdk.component.builder.ComponentSetBuilder;
 import com.jayfella.sdk.component.builder.impl.AnimComposetComponentSetBuilder;
-import com.jayfella.sdk.component.builder.impl.ReflectedComponentBuilder;
 import com.jayfella.sdk.component.builder.impl.SpatialComponentSetBuilder;
-import com.jayfella.sdk.core.ServiceManager;
+import com.jayfella.sdk.ext.component.Component;
+import com.jayfella.sdk.ext.component.DisposableComponent;
+import com.jayfella.sdk.ext.component.UpdatableComponent;
+import com.jayfella.sdk.ext.component.builder.ComponentBuilder;
+import com.jayfella.sdk.ext.component.builder.ComponentSetBuilder;
+import com.jayfella.sdk.ext.component.builder.ReflectedComponentBuilder;
+import com.jayfella.sdk.ext.core.Service;
+import com.jayfella.sdk.ext.core.ServiceManager;
+import com.jayfella.sdk.ext.registrar.component.builder.ComponentSetBuilderRegistrar;
 import com.jayfella.sdk.ext.registrar.spatial.SpatialRegistrar;
+import com.jayfella.sdk.ext.service.JmeEngineService;
+import com.jayfella.sdk.ext.service.RegistrationService;
 import com.jme3.anim.AnimComposer;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
@@ -39,10 +43,29 @@ public class InspectorService2 implements Service {
     public void updateSpatialRegistrations() {
 
         RegistrationService registrationService = ServiceManager.getService(RegistrationService.class);
-        Set<SpatialRegistrar> spatialRegistrars = registrationService.getSpatialRegistration().getRegisteredSpatials();
+        Set<SpatialRegistrar> spatialRegistrars = registrationService.getSpatialRegistration().getRegistrations();
 
+        // Register spatials to use the generic spatial builder first, and then let the user specify theirs specifically.
+        // this means if they don't specify one, the default one will be used,
+        // but if they do specify one, theirs will be used instead.
         for (SpatialRegistrar registrar : spatialRegistrars) {
             componentSetBuilders.put(registrar.getRegisteredClass(), new SpatialComponentSetBuilder<>());
+        }
+
+    }
+
+    public void updateComponentSetBuilders() {
+
+        RegistrationService registrationService = ServiceManager.getService(RegistrationService.class);
+        Set<ComponentSetBuilderRegistrar> componentSetBuilderRegistrars = registrationService.getComponentSetBuilderRegistration().getRegistrations();
+
+        JmeEngineService engineService = ServiceManager.getService(JmeEngineService.class);
+
+        for (ComponentSetBuilderRegistrar registrar : componentSetBuilderRegistrars) {
+
+            ComponentSetBuilder<?> builder = registrar.createInstance(engineService);
+
+            componentSetBuilders.put(registrar.getPrimitiveClass(), builder);
         }
 
     }
