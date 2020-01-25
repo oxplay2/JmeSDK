@@ -1,0 +1,13 @@
+.removeButton {
+    -fx-background-color: transparent;
+}
+
+.glyph-icon{
+    -fx-text-fill: white;
+    -fx-fill: white;
+}
+
+.glyph-icon:hover {
+    -fx-text-fill: rgba(255, 128, 128, 0.75);
+    -fx-fill: rgba(255, 128, 128, 0.75);
+}

@@ -1,0 +1,20 @@
+.root {
+    -fx-font-size: 11px;
+}
+
+.componentVBox {
+    -fx-alignment: center-right;
+    -fx-spacing: 10;
+    -fx-padding: 0 0 10 0;
+}
+
+
+.componentTitleHBox {
+    -fx-border-width: 1 0 1 0;
+    -fx-border-color: derive(-fx-base, 10%);
+}
+
+.componentTitle {
+    -fx-padding: 5px 10px;
+}
+

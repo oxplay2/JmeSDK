@@ -1,0 +1,18 @@
+.splash-anchorpane {
+    -fx-background-image: url('../../Images/splash.png');
+}
+
+.splash-progressbar {
+    -fx-control-inner-background: black;
+}
+
+.splash-progressbar > .bar {
+    -fx-padding: 5px;
+    -fx-background-color: brown;
+    -fx-background-radius: 0;
+}
+
+.splash-progressbar > .bar, .progress-bar > .track {
+    -fx-background-insets: 0;
+    -fx-background-radius: 0;
+}
