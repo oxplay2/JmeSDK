@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="640.0" styleClass="splash-anchorpane" stylesheets="@Theme/splash.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jayfella.sdk.controller.SplashScreen">
+   <children>
+      <VBox alignment="BOTTOM_LEFT" layoutY="290.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Label fx:id="statusLabel" text="Loading..." textFill="WHITE">
+               <VBox.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </VBox.margin>
+            </Label>
+            <ProgressBar fx:id="progressBar" minWidth="640.0" progress="0.22" styleClass="splash-progressbar" />
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

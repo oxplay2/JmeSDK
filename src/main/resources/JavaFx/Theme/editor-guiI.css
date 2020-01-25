@@ -1,0 +1,34 @@
+.button {
+    -fx-padding: 6;
+}
+
+.buttonLeft {
+    -fx-background-radius: 5 0 0 5;
+}
+
+.buttonCenter {
+    -fx-background-radius: 0;
+}
+
+.buttonRight {
+    -fx-background-radius: 0 5 5 0;
+}
+
+.hbox-child {
+    -fx-background-color: rgba(96, 96, 96, 0.5);
+    -fx-background-radius: 5px;
+    -fx-padding: 5px;
+}
+
+.choice-box {
+    -fx-font-size: 11px;
+}
+
+.choice-box .arrow {
+    -fx-background-color: -fx-mark-highlight-color, -fx-mark-color;
+    -fx-background-insets: 0px 0px 0px 0px, 0px;
+    -fx-padding: 0px 0px 0px 0px;
+    -fx-shape: null;
+    -fx-margin: 0 0 0 0;
+    -fx-max-width: 0;
+}

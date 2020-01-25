@@ -93,7 +93,8 @@ public class JmeEngineServiceImpl extends JmeEngineService {
         // this lets users see things that are black (no light in their scene).
         // it saves a lot of questions about why they can't see anything.
         // @todo let the user specify a color.
-        viewPort.setBackgroundColor(new ColorRGBA(0.03f, 0.03f, 0.03f, 1.0f));
+        //viewPort.setBackgroundColor(new ColorRGBA(0.03f, 0.03f, 0.03f, 1.0f));
+        viewPort.setBackgroundColor(ColorRGBA.Black);
 
         inputManager.setCursorVisible(true);
 
@@ -132,9 +133,35 @@ public class JmeEngineServiceImpl extends JmeEngineService {
 
         // List<ViewPort> vps = renderManager.getPostViews();
         // ViewPort last = vps.get(vps.size()-1);
+        setView3d();
 
-        ImageViewFrameTransferSceneProcessor sceneProcessor = new ImageViewFrameTransferSceneProcessor();
+    }
+
+    private ImageViewFrameTransferSceneProcessor sceneProcessor;
+
+    @Override
+    public void setView3d() {
+
+        if (sceneProcessor != null) {
+            sceneProcessor.unbind();
+        }
+
+        sceneProcessor = new ImageViewFrameTransferSceneProcessor();
         sceneProcessor.bind(imageView, this, viewPort);
+        sceneProcessor.setEnabled(true);
+
+        sceneProcessor.setTransferMode(FrameTransferSceneProcessor.TransferMode.ON_CHANGES);
+    }
+
+    @Override
+    public void setView2d() {
+
+        if (sceneProcessor != null) {
+            sceneProcessor.unbind();
+        }
+
+        sceneProcessor = new ImageViewFrameTransferSceneProcessor();
+        sceneProcessor.bind(imageView, this, guiViewPort);
         sceneProcessor.setEnabled(true);
 
         sceneProcessor.setTransferMode(FrameTransferSceneProcessor.TransferMode.ON_CHANGES);
@@ -157,7 +184,7 @@ public class JmeEngineServiceImpl extends JmeEngineService {
 
     @Override
     public void stopService() {
-        stop();
+        stop(true);
     }
 
     @Override

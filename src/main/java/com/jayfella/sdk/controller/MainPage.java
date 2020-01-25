@@ -7,9 +7,11 @@ import com.jayfella.sdk.core.tasks.CompileProjectBackgroundTask;
 import com.jayfella.sdk.ext.core.ServiceManager;
 import com.jayfella.sdk.ext.service.JmeEngineService;
 import com.jayfella.sdk.ext.service.ProjectInjectorService;
+import com.jayfella.sdk.ext.service.RegistrationService;
 import com.jayfella.sdk.jfx.EditorFxImageView;
 import com.jayfella.sdk.project.Project;
 import com.jayfella.sdk.sdk.AppStateListViewCell;
+import com.jayfella.sdk.sdk.editor.SpatialToolState;
 import com.jayfella.sdk.service.*;
 import com.jayfella.sdk.service.impl.ProjectInjectorServiceImpl;
 import com.jayfella.sdk.service.impl.RegistrationServiceImpl;
@@ -26,6 +28,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
@@ -49,7 +52,10 @@ public class MainPage implements Initializable {
     @FXML private AnchorPane mainSceneAnchorPane;
     @FXML private Tab sceneEditorTab;
     @FXML private ListView<BindableAppState> appstatesListView;
+
     @FXML private Accordion inspectorAccordion;
+    @FXML private GridPane componentLoadingIndicator;
+
     @FXML private HBox statusHBox;
     @FXML private AnchorPane projectFilesAnchorPane;
 
@@ -65,8 +71,7 @@ public class MainPage implements Initializable {
         ServiceManager.registerService(ProjectInjectorServiceImpl.class);
         ServiceManager.registerService(SceneExplorerService.class);
         ServiceManager.registerService(ProjectExplorerService.class);
-        // ServiceManager.registerService(new InspectorService(inspectorAccordion));
-        ServiceManager.registerService(new InspectorService2(inspectorAccordion));
+        ServiceManager.registerService(new InspectorService2(inspectorAccordion, componentLoadingIndicator));
 
         ServiceManager.registerService(SceneEditorService.class);
         ServiceManager.registerService(AppStateService.class);
@@ -102,7 +107,7 @@ public class MainPage implements Initializable {
         addSceneEditorControls(mainSceneAnchorPane);
 
         // background task progress control
-        FXMLLoader backgroundTasksLoader = new FXMLLoader(getClass().getResource("/Interface/BackgroundTasksControl.fxml"));
+        FXMLLoader backgroundTasksLoader = new FXMLLoader(getClass().getResource("/JavaFx/BackgroundTask/BackgroundTasksControl.fxml"));
 
         Parent loaderControl = null;
         try {
@@ -159,11 +164,21 @@ public class MainPage implements Initializable {
                 case "Scene Editor": {
                     ServiceManager.getService(AppStateService.class).disable();
                     ServiceManager.getService(SceneEditorService.class).enable();
+
+                    ServiceManager.getService(JmeEngineService.class)
+                            .getStateManager().getState(SpatialToolState.class)
+                            .setEnabled(true);
+
                     break;
                 }
                 case "AppStates": {
                     ServiceManager.getService(SceneEditorService.class).disable();
                     ServiceManager.getService(AppStateService.class).enable();
+
+                    ServiceManager.getService(JmeEngineService.class)
+                            .getStateManager().getState(SpatialToolState.class)
+                            .setEnabled(false);
+
                     break;
                 }
             }
@@ -240,6 +255,7 @@ public class MainPage implements Initializable {
 
                     ServiceManager.getService(JmeEngineService.class).getFilterManager().updateRegistrations();
                     // ServiceManager.getService(JmeEngineService.class).getFilterManager().refreshFilters();
+                    ServiceManager.getService(RegistrationService.class).executeStartupRegistrations();
 
                     populateAppStatesListView();
                 }
@@ -264,16 +280,10 @@ public class MainPage implements Initializable {
 
     }
 
-
-
-
-
-
-
     private void addSceneEditorControls(AnchorPane controlsAnchorPane) {
 
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/Interface/SceneEditorGUI.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/JavaFx/SceneEditorGUI.fxml"));
             controlsAnchorPane.getChildren().add(root);
         } catch (IOException e) {
             e.printStackTrace();

@@ -103,7 +103,6 @@ public class SplashScreen implements Initializable {
                                 Stage welcomeStage = new Stage(StageStyle.DECORATED);
                                 welcomeStage.setTitle("Welcome to jMonkeyEngine SDK");
                                 welcomeStage.setScene(new Scene(root, 780, 490));
-                                welcomeStage.getScene().getStylesheets().add("/style.css");
                                 welcomeStage.show();
 
                             } catch (IOException e) {

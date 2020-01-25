@@ -3,10 +3,10 @@ package com.jayfella.sdk.sdk.tree.scene;
 import com.jayfella.sdk.ext.core.ThreadRunner;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.control.Control;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 
 public class ControlTreeItem extends SceneTreeItem {
 
@@ -21,7 +21,7 @@ public class ControlTreeItem extends SceneTreeItem {
 
         ContextMenu contextMenu = new ContextMenu();
 
-        MenuItem deleteItem = new MenuItem("Delete", new ImageView(new Image("/Icons/times-circle-regular.png")));
+        MenuItem deleteItem = new MenuItem("Delete", new FontAwesomeIconView(FontAwesomeIcon.TIMES_CIRCLE));
 
         deleteItem.setOnAction(event -> {
 

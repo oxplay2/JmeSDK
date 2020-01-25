@@ -3,15 +3,15 @@ package com.jayfella.sdk.sdk.tree.scene;
 import com.jayfella.sdk.ext.core.ThreadRunner;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 
 public class NodeTreeItem extends SceneTreeItem {
 
     public NodeTreeItem(Node node) {
-        super(node, new ImageView(new Image(NodeTreeItem.class.getResourceAsStream("/Icons/Jme/Scene/node.png"))));
+        super(node, new FontAwesomeIconView(FontAwesomeIcon.CODE_FORK));
     }
 
     @Override
@@ -20,7 +20,7 @@ public class NodeTreeItem extends SceneTreeItem {
         Spatial item = (Spatial) getValue();
         ContextMenu contextMenu = new ContextMenu();
 
-        MenuItem deleteItem = new MenuItem("Delete", new ImageView(new Image("/Icons/times-circle-regular.png")));
+        MenuItem deleteItem = new MenuItem("Delete", new FontAwesomeIconView(FontAwesomeIcon.TIMES_CIRCLE));
 
         deleteItem.setOnAction(event -> {
             ThreadRunner.runInJmeThread(item::removeFromParent);

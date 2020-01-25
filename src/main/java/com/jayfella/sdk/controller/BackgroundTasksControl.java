@@ -42,7 +42,7 @@ public class BackgroundTasksControl implements Initializable {
 
             if (!backgroundTaskService.getTasks().isEmpty()) {
 
-                FXMLLoader primaryLoader = new FXMLLoader(getClass().getResource("/Interface/BackgroundTasksListControl.fxml"));
+                FXMLLoader primaryLoader = new FXMLLoader(getClass().getResource("/JavaFx/BackgroundTask/BackgroundTasksListControl.fxml"));
 
                 Parent root = null;
 

@@ -10,6 +10,7 @@ import com.jayfella.sdk.ext.component.builder.ComponentSetBuilder;
 import com.jayfella.sdk.ext.component.builder.ReflectedComponentBuilder;
 import com.jayfella.sdk.ext.core.Service;
 import com.jayfella.sdk.ext.core.ServiceManager;
+import com.jayfella.sdk.ext.core.ThreadRunner;
 import com.jayfella.sdk.ext.registrar.component.builder.ComponentSetBuilderRegistrar;
 import com.jayfella.sdk.ext.registrar.spatial.SpatialRegistrar;
 import com.jayfella.sdk.ext.service.JmeEngineService;
@@ -21,23 +22,42 @@ import javafx.scene.Parent;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TitledPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
 
 public class InspectorService2 implements Service {
 
     private final Accordion accordion;
+    private final GridPane loadingIndicator;
+
+    private final Timer timer = new Timer();
+    private final long timerDelay = 1000L / 30L; // 30fps
+    private final TimerTask timerTask;
 
     // private Object object;
     private final Map<Class<?>, ComponentSetBuilder<?>> componentSetBuilders = new HashMap<>();
 
-    public InspectorService2(Accordion accordion) {
+    public InspectorService2(Accordion accordion, GridPane loadingIndicator) {
         this.accordion = accordion;
+        this.loadingIndicator = loadingIndicator;
+
+        this.loadingIndicator.setVisible(false);
 
         componentSetBuilders.put(Node.class, new SpatialComponentSetBuilder<Node>());
         componentSetBuilders.put(Geometry.class, new SpatialComponentSetBuilder<Geometry>());
         componentSetBuilders.put(AnimComposer.class, new AnimComposetComponentSetBuilder<AnimComposer>());
+
+        timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                refresh();
+            }
+        };
+
+        timer.scheduleAtFixedRate(timerTask, 1L, timerDelay);
     }
 
     public void updateSpatialRegistrations() {
@@ -118,9 +138,26 @@ public class InspectorService2 implements Service {
         if (componentSetBuilder != null) {
 
             componentSetBuilder.setObject(object);
+            loadingIndicator.setVisible(true);
 
-            List<TitledPane> titledPanes = componentSetBuilder.build();
-            accordion.getPanes().addAll(titledPanes);
+            CompletableFuture.supplyAsync(componentSetBuilder::build)
+                    .thenAccept(titledPanes ->
+
+                            ThreadRunner.runInJfxThread(() -> {
+
+                                        accordion.getPanes().addAll(titledPanes);
+
+                                        if (!accordion.getPanes().isEmpty()) {
+                                            accordion.getPanes().get(0).setExpanded(true);
+                                        }
+
+                                        loadingIndicator.setVisible(false);
+
+                                    }));
+
+            // List<TitledPane> titledPanes = componentSetBuilder.build();
+            // accordion.getPanes().addAll(titledPanes);
+
         }
 
         else {
@@ -132,8 +169,8 @@ public class InspectorService2 implements Service {
 
             TitledPane titledPane = createTitledPane("Properties", components);
             accordion.getPanes().add(titledPane);
-        }
 
+        }
 
         // expand the first titled pane.
         // This is especially important if there's only one titled pane. It looks empty otherwise.
@@ -163,7 +200,8 @@ public class InspectorService2 implements Service {
 
     @Override
     public void stopService() {
-
+        timer.cancel();
+        timer.purge();
     }
 
     /**

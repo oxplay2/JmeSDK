@@ -24,10 +24,13 @@ public class SpatialToolState extends SpatialTool {
     public void setTool(Tool tool) {
 
         if (this.activeTool == tool) {
-            return;
+             return;
         }
 
-        activeToolState.setEnabled(false);
+        if (activeToolState != null) {
+            activeToolState.setEnabled(false);
+        }
+
         Spatial spatial = activeToolState.getSpatial();
 
         activeTool = tool;
@@ -57,6 +60,12 @@ public class SpatialToolState extends SpatialTool {
         getStateManager().attach(moveTool);
         getStateManager().attach(rotateTool);
         getStateManager().attach(scaleTool);
+
+        if (activeToolState != null) {
+            activeToolState.setEnabled(true);
+            activeToolState.setSpatial(activeToolState.getSpatial());
+        }
+
     }
 
     @Override

@@ -42,7 +42,7 @@ public class WelcomePage implements Initializable {
             recentProjectsListView.getItems().add(file);
         }
 
-        FXMLLoader backgroundTasksLoader = new FXMLLoader(getClass().getResource("/Interface/BackgroundTasksControl.fxml"));
+        FXMLLoader backgroundTasksLoader = new FXMLLoader(getClass().getResource("/JavaFx/BackgroundTask/BackgroundTasksControl.fxml"));
 
         Parent loaderControl = null;
         try {

@@ -5,10 +5,10 @@ import com.jayfella.sdk.dialog.CreateFolderDialog;
 import com.jayfella.sdk.dialog.NewSceneDialog;
 import com.jme3.export.binary.BinaryExporter;
 import com.jme3.scene.Node;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 
 import java.io.File;
 import java.io.IOException;
@@ -16,7 +16,7 @@ import java.io.IOException;
 public class FolderTreeItem extends ProjectTreeItem {
 
     public FolderTreeItem(File value) {
-        super(value, new ImageView(new Image(FolderTreeItem.class.getResourceAsStream("/Icons/File/folder-solid.png"))));
+        super(value, new FontAwesomeIconView(FontAwesomeIcon.FOLDER));
     }
 
     @Override

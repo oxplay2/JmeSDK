@@ -314,7 +314,7 @@ public class SceneExplorerService implements Service, Initializable {
 
     @Override
     public void stopService() {
-
+        spatialHighlighter.stop();
     }
 
 

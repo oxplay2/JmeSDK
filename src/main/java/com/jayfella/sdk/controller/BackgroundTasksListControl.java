@@ -35,7 +35,7 @@ public class BackgroundTasksListControl implements Initializable {
 
         public BackgroundTaskCell() {
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Interface/BackgroundTaskListCell.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/JavaFx/BackgroundTask/BackgroundTaskListCell.fxml"));
 
             try {
                 graphic = loader.load();

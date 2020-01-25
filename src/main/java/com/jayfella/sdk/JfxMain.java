@@ -75,7 +75,7 @@ public class JfxMain extends Application {
 
         primaryStage.setTitle("JmonkeyEngine SDK");
 
-        FXMLLoader splashLoader = new FXMLLoader(getClass().getResource("/SplashScreen.fxml"));
+        FXMLLoader splashLoader = new FXMLLoader(getClass().getResource("/JavaFx/SplashScreen.fxml"));
         Parent splashRoot = splashLoader.load();
         SplashScreen splashController = splashLoader.getController();
 
@@ -94,7 +94,7 @@ public class JfxMain extends Application {
         primaryStage.setScene(new Scene(root, userSettings.getWindowWidth(), userSettings.getWindowHeight()));
         primaryStage.setOnHidden(event -> Platform.exit());
 
-        primaryStage.getScene().getStylesheets().add("/style.css");
+        //primaryStage.getScene().getStylesheets().add("/JavaFx/Theme/base.css");
 
         /*
         ObservableList<String> stylesheets = primaryStage.getScene().getStylesheets();

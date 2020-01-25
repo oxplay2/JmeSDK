@@ -1,6 +1,7 @@
 plugins {
     id 'java'
     id 'org.openjfx.javafxplugin' version '0.0.8'
+    id "com.github.johnrengelman.shadow" version "5.2.0"
     id 'application'
 }
 
@@ -16,7 +17,7 @@ javafx {
 }
 
 group 'com.jayfella'
-version '1.0-SNAPSHOT'
+version '0.0.1'
 
 sourceCompatibility = JavaVersion.VERSION_11
 targetCompatibility = JavaVersion.VERSION_11
@@ -40,7 +41,7 @@ project.ext {
 
 dependencies {
 
-    compile "com.jayfella:sdk-ext:1.0"
+    compile "com.jayfella:sdk-ext:1.0.0"
 
     compile "org.jmonkeyengine:jme3-core:3.3.0-beta1"
     compile "org.jmonkeyengine:jme3-desktop:3.3.0-beta1"
@@ -73,8 +74,26 @@ dependencies {
 
     // zip files
     compile "net.lingala.zip4j:zip4j:2.2.8"
-}
 
+    // git
+    compile group: 'org.eclipse.jgit', name: 'org.eclipse.jgit', version: '5.6.0.201912101111-r'
+
+    compile 'com.jayfella:jme-easing:1.0'
+
+    //javafx
+    // compile "org.openjfx:javafx-base:13.0.1"
+    // compile "org.openjfx:javafx-controls:13.0.1"
+    // compile "org.openjfx:javafx-fxml:13.0.1"
+    // compile "org.openjfx:javafx-graphics:13.0.1"
+    // compile "org.openjfx:javafx-swing:13.0.1"
+
+    // compile "org.openjfx:javafx-base:13.0.1:linux"
+    // compile "org.openjfx:javafx-controls:13.0.1:linux"
+    // compile "org.openjfx:javafx-fxml:13.0.1:linux"
+    // compile "org.openjfx:javafx-graphics:13.0.1:linux"
+    // compile "org.openjfx:javafx-swing:13.0.1:linux"
+
+}
 jar {
     from {
         configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }

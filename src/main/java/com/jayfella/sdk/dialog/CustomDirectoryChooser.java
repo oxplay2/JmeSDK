@@ -1,5 +1,7 @@
 package com.jayfella.sdk.dialog;
 
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -11,8 +13,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -221,7 +221,7 @@ public class CustomDirectoryChooser implements Initializable {
                 setGraphic(null);
             } else {
                 setText(pathToString(item));
-                setGraphic(new ImageView(new Image("Icons/File/folder-solid.png")));
+                setGraphic(new FontAwesomeIconView(FontAwesomeIcon.FOLDER));
             }
         }
     }

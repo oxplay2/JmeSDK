@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.*?>
+<?import java.net.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jayfella.sdk.controller.SceneEditorGUI">
+   <children>
+      <HBox alignment="CENTER_LEFT" spacing="10.0">
+         <children>
+            <HBox styleClass="hbox-child">
+               <children>
+                  <ToggleButton mnemonicParsing="false" onAction="#onMode2dToggle" styleClass="buttonLeft">
+                      <graphic>
+                          <FontAwesomeIconView glyphName="SQUARE" />
+                      </graphic>
+                     <toggleGroup>
+                        <ToggleGroup fx:id="perspectiveToggleGroup" />
+                     </toggleGroup>
+                     <tooltip>
+                        <Tooltip text="2D Mode" />
+                     </tooltip>
+                  </ToggleButton>
+                  <ToggleButton mnemonicParsing="false" onAction="#onMode3dToggle" selected="true" styleClass="buttonRight" toggleGroup="$perspectiveToggleGroup">
+                      <graphic>
+                          <FontAwesomeIconView glyphName="CUBES" />
+                      </graphic>
+                     <tooltip>
+                        <Tooltip text="3D Mode" />
+                     </tooltip>
+                  </ToggleButton>
+               </children>
+            </HBox>
+            <HBox styleClass="hbox-child">
+               <children>
+                  <ToggleButton mnemonicParsing="false" onAction="#onAmbientLightToggle" styleClass="buttonLeft">
+                      <graphic>
+                          <FontAwesomeIconView glyphName="SUN_ALT" />
+                      </graphic>
+                     <tooltip>
+                        <Tooltip text="Ambient Light" />
+                     </tooltip>
+                  </ToggleButton>
+                  <ToggleButton mnemonicParsing="false" onAction="#onDirectionalLightToggle" styleClass="buttonCenter">
+                      <graphic>
+                          <FontAwesomeIconView glyphName="ARROW_DOWN" />
+                      </graphic>
+                     <tooltip>
+                        <Tooltip text="Directional Light" />
+                     </tooltip>
+                  </ToggleButton>
+                  <ToggleButton mnemonicParsing="false" onAction="#onLightProbeToggle" styleClass="buttonRight">
+                      <graphic>
+                          <FontAwesomeIconView glyphName="DOT_CIRCLE_ALT" />
+                      </graphic>
+                     <tooltip>
+                        <Tooltip text="Light Probe" />
+                     </tooltip>
+                  </ToggleButton>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" styleClass="hbox-child">
+               <children>
+                  <ToggleButton mnemonicParsing="false" onAction="#onMoveToolToggle" selected="true" styleClass="buttonLeft">
+                      <graphic>
+                          <FontAwesomeIconView glyphName="ARROWS" />
+                      </graphic>
+                     <tooltip>
+                        <Tooltip text="Tool: Move" />
+                     </tooltip>
+                     <toggleGroup>
+                        <ToggleGroup fx:id="TransformToggleGroup" />
+                     </toggleGroup>
+                  </ToggleButton>
+                  <ToggleButton mnemonicParsing="false" onAction="#onRotateToolToggle" styleClass="buttonCenter" toggleGroup="$TransformToggleGroup">
+                      <graphic>
+                          <FontAwesomeIconView glyphName="REFRESH" />
+                      </graphic>
+                     <tooltip>
+                        <Tooltip text="Tool: Rotate" />
+                     </tooltip>
+                  </ToggleButton>
+                  <ToggleButton mnemonicParsing="false" onAction="#onScaleToggle" styleClass="buttonRight" toggleGroup="$TransformToggleGroup">
+                      <graphic>
+                          <FontAwesomeIconView glyphName="EXPAND" />
+                      </graphic>
+                     <tooltip>
+                        <Tooltip text="Tool: Scale" />
+                     </tooltip>
+                  </ToggleButton>
+               </children>
+            </HBox>
+            <HBox styleClass="hbox-child">
+                <children>
+                    <ToggleButton mnemonicParsing="false" styleClass="buttonLeft">
+                        <graphic>
+                            <FontAwesomeIconView glyphName="TH" />
+                        </graphic>
+                    </ToggleButton>
+                  <ChoiceBox fx:id="translationChoiceBox" minHeight="26.0" styleClass="buttonRight" />
+                </children>
+            </HBox>
+
+             <HBox styleClass="hbox-child">
+                 <children>
+                     <ToggleButton mnemonicParsing="false" styleClass="buttonLeft">
+                         <graphic>
+                             <FontAwesomeIconView glyphName="REPEAT" />
+                         </graphic>
+                     </ToggleButton>
+                  <ChoiceBox fx:id="rotateStepChoiceBox" minHeight="26.0" />
+                 </children>
+             </HBox>
+
+             <HBox styleClass="hbox-child">
+                 <children>
+                     <ToggleButton mnemonicParsing="false" styleClass="buttonLeft">
+                         <graphic>
+                             <FontAwesomeIconView glyphName="ARROWS_H" />
+                         </graphic>
+                     </ToggleButton>
+                  <ChoiceBox fx:id="scaleStepChoiceBox" minHeight="26.0" />
+                 </children>
+             </HBox>
+
+         </children>
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
+      </HBox>
+   </children>
+   <stylesheets>
+      <URL value="@Theme/editor-guiI.css" />
+      <URL value="@Theme/base.css" />
+   </stylesheets>
+</AnchorPane>

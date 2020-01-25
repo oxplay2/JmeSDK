@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Tooltip?>
-<?import javafx.scene.control.TreeView?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
-
+<?import javafx.scene.layout.*?>
 <VBox fx:id="root" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <HBox fx:id="toolbarHBox" alignment="CENTER_LEFT" spacing="5.0">
@@ -21,9 +17,7 @@
             </Label>
             <Button mnemonicParsing="false" onAction="#onSaveButtonClicked">
                 <graphic>
-                    <ImageView preserveRatio="true">
-                        <Image url="@../Icons/File/save-regular.png" />
-                    </ImageView>
+                    <FontAwesomeIconView glyphName="FLOPPY_ALT" />
                 </graphic>
                <tooltip>
                   <Tooltip text="Save Changes" />
@@ -31,9 +25,7 @@
             </Button>
             <Button mnemonicParsing="false" onAction="#onCloseButtonClicked">
                 <graphic>
-                    <ImageView preserveRatio="true">
-                        <Image url="@../Icons/times-circle-regular.png" />
-                    </ImageView>
+                    <FontAwesomeIconView glyphName="TIMES_CIRCLE" />
                 </graphic>
                <tooltip>
                   <Tooltip text="Close" />

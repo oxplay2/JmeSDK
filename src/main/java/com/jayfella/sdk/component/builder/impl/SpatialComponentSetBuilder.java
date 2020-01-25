@@ -139,6 +139,23 @@ public class SpatialComponentSetBuilder<T> extends AbstractComponentSetBuilder<S
 
                 titledPanes.add(materialPane);
 
+                // Additional Render State
+                // move it from here to the material titledpane.
+                // that way when the material gets updated, the renderstate does too.
+                /*
+                Geometry geometry = (Geometry) object;
+                Material material = geometry.getMaterial();
+
+                ReflectedComponentBuilder<RenderState> renderStateBuilder = new ReflectedComponentBuilder<>();
+                renderStateBuilder.setObject(material.getAdditionalRenderState());
+
+                List<Component> renderStateComponents = renderStateBuilder.build();
+
+                TitledPane renderStatePane = createTitledPane("AdditionalRenderState", renderStateComponents);
+                titledPanes.add(renderStatePane);
+
+                 */
+
             } catch (NoSuchMethodException e) {
                 e.printStackTrace();
             }

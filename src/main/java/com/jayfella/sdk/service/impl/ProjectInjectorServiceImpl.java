@@ -1,6 +1,7 @@
 package com.jayfella.sdk.service.impl;
 
 import com.jayfella.sdk.ext.core.ExternalClassLoader;
+import com.jayfella.sdk.ext.core.SdkRunnable;
 import com.jayfella.sdk.ext.core.ServiceManager;
 import com.jayfella.sdk.ext.service.JmeEngineService;
 import com.jayfella.sdk.ext.service.ProjectInjectorService;
@@ -9,6 +10,7 @@ import com.jayfella.sdk.project.Project;
 import com.jme3.app.state.AppState;
 import org.apache.log4j.Logger;
 import org.reflections.Reflections;
+import org.reflections.scanners.MethodAnnotationsScanner;
 import org.reflections.scanners.SubTypesScanner;
 import org.reflections.util.ConfigurationBuilder;
 
@@ -56,15 +58,12 @@ public class ProjectInjectorServiceImpl extends ProjectInjectorService {
 
     public List<Class<? extends AppState>> getAppStates() {
 
-        List<Class<? extends AppState>> appstates = new ArrayList<>();
-
         ConfigurationBuilder builder = new ConfigurationBuilder()
                 .addClassLoader(externalClassLoader)
                 .addUrls(externalClassLoader.getURLs())
-                .setScanners(new SubTypesScanner());
+                .setScanners(new SubTypesScanner(), new MethodAnnotationsScanner());
 
         Reflections reflections = new Reflections(builder);
-
         Set<Class<? extends AppState>> classes = new HashSet<>();
 
         try {
@@ -74,43 +73,23 @@ public class ProjectInjectorServiceImpl extends ProjectInjectorService {
             // ignore
         }
 
-        // remove any abstract classes. the reflection lib probably has a method to do this.
-        classes.removeIf(clazz -> clazz.getSimpleName().toLowerCase().startsWith("abstract"));
+        classes.removeIf(clazz -> {
 
-        // Sort them alphabetically
-        // List<Class<? extends AppState>> sortedClasses = new ArrayList<>(classes);
-        // sortedClasses.sort(Comparator.comparing(Class::getSimpleName));
-
-        // appstatesListView.getItems().clear();
-
-        for (Class<? extends AppState> clazz : classes) {
-
-            // System.out.println(clazz.getSimpleName());
-
-            // we don't want anything from "com.jme3"
-            if (clazz.getName().startsWith("com.jme3")) {
-                continue;
-            }
-
-            // only list appstates that have a no-args constructor.
-            // we do this because we will attach them, and we don't want any args to add them.
             try {
                 Constructor<? extends AppState> constructor = clazz.getConstructor();
-                if (constructor == null) {
-                    continue;
-                }
-
+                return !constructor.isAnnotationPresent(SdkRunnable.class);
             } catch (NoSuchMethodException e) {
-                // ignore
-                // e.printStackTrace();
-                continue;
+                return true;
             }
+        });
 
-            // BindableAppState bindableAppState = new BindableAppState(clazz);
-            // appstatesListView.getItems().add(bindableAppState);
-            appstates.add(clazz);
-        }
+        // remove any abstract classes. the reflection lib probably has a method to do this.
+        // classes.removeIf(clazz -> clazz.getSimpleName().toLowerCase().startsWith("abstract"));
 
+        // System.out.println(clazz.getSimpleName());
+        List<Class<? extends AppState>> appstates = new ArrayList<>(classes);
+
+        // Sort them alphabetically
         appstates.sort(Comparator.comparing(Class::getSimpleName));
         return appstates;
 

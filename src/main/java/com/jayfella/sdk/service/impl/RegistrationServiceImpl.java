@@ -15,6 +15,8 @@ import com.jayfella.sdk.ext.registrar.filter.FilterRegistrar;
 import com.jayfella.sdk.ext.registrar.filter.NoArgsFilterRegistrar;
 import com.jayfella.sdk.ext.registrar.spatial.NoArgsSpatialRegistrar;
 import com.jayfella.sdk.ext.registrar.spatial.SpatialRegistrar;
+import com.jayfella.sdk.ext.registrar.startup.DependencyStartupRegistrar;
+import com.jayfella.sdk.ext.service.JmeEngineService;
 import com.jayfella.sdk.ext.service.ProjectInjectorService;
 import com.jayfella.sdk.ext.service.RegistrationService;
 import com.jayfella.sdk.registrar.DirectionalLightShadowFilterRegistrar;
@@ -45,11 +47,6 @@ public class RegistrationServiceImpl extends RegistrationService {
 
     private static final Logger log = LoggerFactory.getLogger(RegistrationService.class);
 
-
-    // private final FilterRegistration filterRegistration = new FilterRegistration();
-    // private final SpatialRegistration spatialRegistration = new SpatialRegistration();
-    // private final ControlRegistration controlRegistration = new ControlRegistration();
-    // private final ComponentRegistration componentRegistration = new ComponentRegistration();
     private final Registrar<FilterRegistrar> filterRegistration = new Registrar<>(FilterRegistrar.class);
     private final Registrar<SpatialRegistrar> spatialRegistration = new Registrar<>(SpatialRegistrar.class);
     private final Registrar<ControlRegistrar> controlRegistration = new Registrar<>(ControlRegistrar.class);
@@ -57,6 +54,8 @@ public class RegistrationServiceImpl extends RegistrationService {
 
     private final Registrar<ComponentBuilderRegistrar> componentBuilderRegistration = new Registrar<>(ComponentBuilderRegistrar.class);
     private final Registrar<ComponentSetBuilderRegistrar> componentSetBuilderRegistration = new Registrar<>(ComponentSetBuilderRegistrar.class);
+
+    private final Registrar<DependencyStartupRegistrar> dependencyStartupRegistration = new Registrar<>(DependencyStartupRegistrar.class);
 
     public RegistrationServiceImpl() {
 
@@ -134,6 +133,11 @@ public class RegistrationServiceImpl extends RegistrationService {
     }
 
     @Override
+    public Registrar<DependencyStartupRegistrar> getDependencyStartupRegistration() {
+        return dependencyStartupRegistration;
+    }
+
+    @Override
     public void stopService() {
 
     }
@@ -178,6 +182,21 @@ public class RegistrationServiceImpl extends RegistrationService {
             } catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
                 e.printStackTrace();
             }
+
+        }
+
+    }
+
+    @Override
+    public void executeStartupRegistrations() {
+
+        Set<DependencyStartupRegistrar> registrars = dependencyStartupRegistration.getRegistrations();
+
+        JmeEngineService engineService = ServiceManager.getService(JmeEngineService.class);
+
+        for (DependencyStartupRegistrar registrar : registrars) {
+
+            registrar.createInstance(engineService);
 
         }
 
@@ -399,13 +418,18 @@ public class RegistrationServiceImpl extends RegistrationService {
         int componentSetBuilderCount = getComponentSetBuilderRegistration().getRegistrations().size();
         log.info(String.format("ComponentSet Builders Registered: %d", componentSetBuilderCount));
 
+        processRegistrar(dependencyStartupRegistration);
+        int startupCount = getDependencyStartupRegistration().getRegistrations().size();
+        log.info(String.format("Startup Actions Registered: %d", startupCount));
+
         log.info(String.format("Total Registrations: %d",
                 filterCount +
                         spatialCount +
                         controlCount +
                         componentCount +
                         componentBuilderCount +
-                        componentSetBuilderCount
+                        componentSetBuilderCount +
+                        startupCount
         ));
 
     }

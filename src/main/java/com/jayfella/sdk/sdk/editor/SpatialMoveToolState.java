@@ -14,18 +14,18 @@ import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
 import com.jme3.renderer.queue.RenderQueue;
 import com.jme3.scene.Geometry;
-import com.jme3.scene.SceneGraphVisitorAdapter;
+import com.jme3.scene.Node;
 
 
 public class SpatialMoveToolState extends SpatialTool implements ActionListener, AnalogListener {
 
-    // private Spatial moveModel;
-    // private Spatial spatialToMove;
+    private InputManager inputManager;
+    private Camera camera;
 
     private final CollisionResults collisionResults = new CollisionResults();
+    private final Ray ray = new Ray();
 
     private boolean move_x, move_y, move_z;
-
 
     public SpatialMoveToolState() {
         setEnabled(false);
@@ -34,54 +34,21 @@ public class SpatialMoveToolState extends SpatialTool implements ActionListener,
     @Override
     protected void initialize(Application app) {
 
-        toolModel = app.getAssetManager().loadModel("Models/SDK/Axis_Move.j3o");
-        toolModel.setQueueBucket(RenderQueue.Bucket.Transparent); // always visible
-        toolModel.breadthFirstTraversal(new SceneGraphVisitorAdapter() {
+        this.inputManager = app.getInputManager();
+        this.camera = app.getCamera();
 
-            @Override
-            public void visit(Geometry geom) {
-                geom.getMaterial().setBoolean("UseVertexColor", true);
-                geom.getMaterial().getAdditionalRenderState().setDepthTest(false);
-            }
-
-        });
-
-    }
-
-    /*
-    @Override
-    public void setSpatial(Spatial spatial) {
-        this.spatialToMove = spatial;
-
-        setEnabled(this.spatialToMove != null);
-
-        if (spatialToMove != null && spatialToMove.getParent() != null) {
-            spatialToMove.getParent().attachChild(moveModel);
+        if (toolModel == null) {
+            toolModel = (Node) app.getAssetManager().loadModel("Models/SDK/Widget_Translation.j3o");
+            toolModel.setQueueBucket(RenderQueue.Bucket.Transparent);
+            toolModel.setShadowMode(RenderQueue.ShadowMode.Off);
         }
     }
-
-
-
-    @Override
-    public Spatial getSpatial() {
-        return spatialToMove;
-    }
-
-
-
-    @Override
-    public boolean isBusy() {
-        return busy;
-    }
-     */
 
     @Override
     protected void cleanup(Application app) { }
 
     @Override
     protected void onEnable() {
-
-        InputManager inputManager = getApplication().getInputManager();
 
         inputManager.addMapping("Move", new MouseButtonTrigger(MouseInput.BUTTON_LEFT));
 
@@ -97,14 +64,10 @@ public class SpatialMoveToolState extends SpatialTool implements ActionListener,
                 "MoveAxisY", "MoveAxisY-"
         );
 
-
-
     }
 
     @Override
     protected void onDisable() {
-
-        InputManager inputManager = getApplication().getInputManager();
 
         inputManager.deleteMapping("Move");
 
@@ -122,7 +85,7 @@ public class SpatialMoveToolState extends SpatialTool implements ActionListener,
     }
 
 
-    private final Ray ray = new Ray();
+
 
     @Override
     public void onAction(String binding, boolean isPressed, float tpf) {
@@ -131,15 +94,10 @@ public class SpatialMoveToolState extends SpatialTool implements ActionListener,
 
             if (!move_x && !move_y && !move_z) {
 
-                InputManager inputManager = getApplication().getInputManager();
-
-                // JmePanel jmePanel = ServiceManager.getService(JmeEngineService.class).getActivePanel();
-                // Camera cam = jmePanel.getCamera();
-                Camera cam = getApplication().getCamera();
 
                 Vector2f click2d = inputManager.getCursorPosition();
-                Vector3f click3d = cam.getWorldCoordinates(new Vector2f(click2d.x, click2d.y), 0f).clone();
-                Vector3f dir = cam.getWorldCoordinates(new Vector2f(click2d.x, click2d.y), 1f).subtractLocal(click3d).normalizeLocal();
+                Vector3f click3d = camera.getWorldCoordinates(new Vector2f(click2d.x, click2d.y), 0f).clone();
+                Vector3f dir = camera.getWorldCoordinates(new Vector2f(click2d.x, click2d.y), 1f).subtractLocal(click3d).normalizeLocal();
 
                 ray.setOrigin(click3d);
                 ray.setDirection(dir);
@@ -186,9 +144,9 @@ public class SpatialMoveToolState extends SpatialTool implements ActionListener,
 
                 // we're moving something.
 
-                Vector3f left = selectedSpatial.getLocalRotation().mult(Vector3f.UNIT_X);
-                Vector3f up = selectedSpatial.getLocalRotation().mult(Vector3f.UNIT_Y);
-                Vector3f forward = selectedSpatial.getLocalRotation().mult(Vector3f.UNIT_Z);
+                // Vector3f left = selectedSpatial.getLocalRotation().mult(Vector3f.UNIT_X);
+                // Vector3f up = selectedSpatial.getLocalRotation().mult(Vector3f.UNIT_Y);
+                // Vector3f forward = selectedSpatial.getLocalRotation().mult(Vector3f.UNIT_Z);
 
                 float val = binding.endsWith("-")
                         ? value * -1
@@ -197,11 +155,11 @@ public class SpatialMoveToolState extends SpatialTool implements ActionListener,
                 val *= distance;
 
                 if (move_x) {
-                    selectedSpatial.move(left.mult(val));
+                    selectedSpatial.move(val, 0 ,0);
                 } else if (move_y) {
-                    selectedSpatial.move(up.mult(val));
+                    selectedSpatial.move(0, val, 0);
                 } else if (move_z) {
-                    selectedSpatial.move(forward.mult(val));
+                    selectedSpatial.move(0, 0, -val);
                 }
 
             }
