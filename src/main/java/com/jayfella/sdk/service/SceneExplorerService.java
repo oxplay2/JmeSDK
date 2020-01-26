@@ -276,7 +276,7 @@ public class SceneExplorerService implements Service, Initializable {
      * @param treeItem the treeItem to refresh.
      */
     public void refresh(TreeItem<Object> treeItem) {
-        treeUpdater.refresh(treeItem, attachedScene);
+        treeUpdater.refresh(treeItem, (Spatial) treeItem.getValue());
     }
 
     public void setSelectedSpatial(Spatial spatial) {

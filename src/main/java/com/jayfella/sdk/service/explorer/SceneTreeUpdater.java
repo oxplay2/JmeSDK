@@ -2,7 +2,9 @@ package com.jayfella.sdk.service.explorer;
 
 import com.jayfella.sdk.sdk.tree.scene.ControlTreeItem;
 import com.jayfella.sdk.sdk.tree.scene.GeometryTreeItem;
+import com.jayfella.sdk.sdk.tree.scene.LightTreeItem;
 import com.jayfella.sdk.sdk.tree.scene.NodeTreeItem;
+import com.jme3.light.Light;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
@@ -29,18 +31,20 @@ public class SceneTreeUpdater {
     public SceneTreeUpdater() {
     }
 
-    public void refresh(TreeItem<Object> treeItem, Node scene) {
+    public void refresh(TreeItem<Object> treeItem, Spatial scene) {
 
         // iterate over each item and check whether it exists.
         // - if it exists in the scene, but not in the tree, add it.
         // - if it exists in the tree, but not in the scene delete it.
-        // traverseScene(treeItem, scene);
 
-        traverseScene(treeItem, scene);
+        traverseLights(treeItem, scene);
         traverseControls(treeItem, scene);
+        traverseScene(treeItem, scene);
     }
 
     private void traverseScene(TreeItem<Object> treeItem, Spatial sceneItem) {
+
+        // we only need to traverse children, so only accept Nodes.
 
         if (sceneItem instanceof Node) {
 
@@ -68,7 +72,10 @@ public class SceneTreeUpdater {
                         treeItem.getChildren().add(nodeTreeItem);
 
                         traverseScene(nodeTreeItem, childNode);
+
+                        traverseLights(nodeTreeItem, childNode);
                         traverseControls(nodeTreeItem, childNode);
+
                     }
                     else if (childSpatial instanceof Geometry) {
 
@@ -77,20 +84,47 @@ public class SceneTreeUpdater {
                         GeometryTreeItem geometryTreeItem = new GeometryTreeItem(childGeometry);
                         treeItem.getChildren().add(geometryTreeItem);
 
+                        traverseLights(geometryTreeItem, childGeometry);
                         traverseControls(geometryTreeItem, childGeometry);
+
                     }
 
                 }
                 else {
+
                     traverseScene(existingTreeItem, childSpatial);
+
+                    traverseLights(existingTreeItem, childSpatial);
                     traverseControls(existingTreeItem, childSpatial);
+
+                }
+
+                List<Light> lights = new ArrayList<>();
+                List<Control> controls = new ArrayList<>();
+
+                for (int i = 0; i < sceneItem.getLocalLightList().size(); i++) {
+                    lights.add(sceneItem.getLocalLightList().get(i));
+                }
+
+                for (int i = 0; i < sceneItem.getNumControls(); i++) {
+                    controls.add(sceneItem.getControl(i));
                 }
 
                 // if it exists in the tree, and not the scene, remove it.
                 treeChildren.removeIf(childTreeItem -> {
 
-                    if (treeItem.getValue() != null && childTreeItem.getValue() instanceof Spatial) {
-                        return !nodeChildren.contains(childTreeItem.getValue());
+                    if (treeItem.getValue() != null) {
+
+                        if (childTreeItem.getValue() instanceof Spatial) {
+                            return !nodeChildren.contains(childTreeItem.getValue());
+                        }
+                        else if (childTreeItem.getValue() instanceof Light) {
+                            return !lights.contains(childTreeItem.getValue());
+                        }
+                        else if (childTreeItem.getValue() instanceof Control) {
+                            return !controls.contains(childTreeItem.getValue());
+                        }
+
                     }
 
                     return true;
@@ -117,7 +151,8 @@ public class SceneTreeUpdater {
 
                 if (treeChild.getValue() != null && treeChild.getValue() instanceof Control) {
                     Control treeControl = (Control) treeChild.getValue();
-                    return controls.contains(treeControl);
+                    // return controls.contains(treeControl);
+                    return control == treeControl;
                 }
 
                 return false;
@@ -136,6 +171,52 @@ public class SceneTreeUpdater {
             if (treeChild.getValue() != null && treeChild.getValue() instanceof Control) {
                 Control control = (Control) treeChild.getValue();
                 return !controls.contains(control);
+            }
+
+            return false;
+        });
+
+    }
+
+    private void traverseLights(TreeItem<Object> treeItem, Spatial sceneItem) {
+
+        ObservableList<TreeItem<Object>> treeChildren = treeItem.getChildren();
+        List<Light> lights = new ArrayList<>();
+
+        for (int i = 0 ; i < sceneItem.getLocalLightList().size(); i++) {
+            lights.add(sceneItem.getLocalLightList().get(i));
+        }
+
+        // check if it exists in the tree, and if not, add it.
+        for (Light light : lights) {
+
+            boolean existsTree = treeChildren.stream().anyMatch(treeChild -> {
+
+                if (treeChild.getValue() != null && treeChild.getValue() instanceof Light) {
+                    Light treeLight = (Light) treeChild.getValue();
+                    // boolean contains = lights.contains(treeLight);
+                    boolean contains = treeLight == light;
+                    return contains;
+                }
+
+                return false;
+            });
+
+            // if exists in the scene and it doesnt exist in the tree, add it.
+            if (!existsTree) {
+                LightTreeItem lightTreeItem = new LightTreeItem(light, null);
+                treeItem.getChildren().add(lightTreeItem);
+            }
+        }
+
+        // check if it exists in the tree and not the scene
+
+        treeChildren.removeIf(treeChild -> {
+
+            if (treeChild.getValue() != null && treeChild.getValue() instanceof Light) {
+                Light light = (Light) treeChild.getValue();
+                boolean contains =  lights.contains(light);
+                return !contains;
             }
 
             return false;

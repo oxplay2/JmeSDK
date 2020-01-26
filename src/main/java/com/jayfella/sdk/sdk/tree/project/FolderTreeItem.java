@@ -7,12 +7,16 @@ import com.jme3.export.binary.BinaryExporter;
 import com.jme3.scene.Node;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
-import javafx.scene.control.ContextMenu;
-import javafx.scene.control.MenuItem;
+import javafx.scene.control.*;
+import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Optional;
 
+/**
+ * Represents a real folder that exists in the project.
+ */
 public class FolderTreeItem extends ProjectTreeItem {
 
     public FolderTreeItem(File value) {
@@ -92,6 +96,43 @@ public class FolderTreeItem extends ProjectTreeItem {
 
         });
         contextMenu.getItems().add(newScene);
+
+        contextMenu.getItems().add(new SeparatorMenuItem());
+
+        MenuItem deleteItem = new MenuItem("Delete", new FontAwesomeIconView(FontAwesomeIcon.TRASH));
+        deleteItem.setOnAction(event -> {
+
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
+                    "Are you sure you wish to permanently delete this folder and all of its content?",
+                    ButtonType.YES, ButtonType.NO);
+
+            alert.setTitle("Delete Folder");
+            alert.setHeaderText("Confirm Delete Model");
+
+            Optional<ButtonType> button = alert.showAndWait();
+
+            if (button.isPresent() && button.get() == ButtonType.YES) {
+
+                File folder = (File) getValue();
+
+                // boolean deleted = modelFile.delete();
+                try {
+                    FileUtils.deleteDirectory(folder);
+                    getParent().getChildren().remove(this);
+                } catch (IOException e) {
+
+                    e.printStackTrace();
+
+                    Alerts.error("Delete Folder",
+                            "Unable to Delete",
+                            "An error occurred attempting to delete the requested folder: " + e.getMessage())
+                            .show();
+                }
+
+            }
+
+        });
+        contextMenu.getItems().add(deleteItem);
 
         return contextMenu;
     }

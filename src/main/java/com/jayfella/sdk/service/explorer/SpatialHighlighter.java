@@ -187,9 +187,9 @@ public class SpatialHighlighter {
 
     public void update() {
 
-        if (highlightGeom != null && spatial != null) {
+        ThreadRunner.runInJmeThread(() -> {
+            if (highlightGeom != null && spatial != null) {
 
-            ThreadRunner.runInJmeThread(() -> {
 
                 // if the positions are not the same, move the highlighter NODE.
                 // we move the highlighter node because the BoundingVolume geometries have a localTranslation.
@@ -216,9 +216,7 @@ public class SpatialHighlighter {
                         highlightGeom.setLocalScale(spatial.getWorldScale());
                     }
 
-                }
-
-                else {
+                } else {
 
                     // if the rotation or scale differ, redraw the bounding volume.
 
@@ -229,9 +227,7 @@ public class SpatialHighlighter {
 
                         if (spatial.getWorldBound() instanceof BoundingBox) {
                             makeBoundingBox();
-                        }
-
-                        else if (spatial.getWorldBound() instanceof BoundingSphere) {
+                        } else if (spatial.getWorldBound() instanceof BoundingSphere) {
                             makeBoundingSphere();
                         }
                     }
@@ -240,8 +236,9 @@ public class SpatialHighlighter {
 
                 rotation.set(spatial.getWorldRotation());
 
-            });
-        }
+
+            }
+        });
     }
 
     public void stop() {

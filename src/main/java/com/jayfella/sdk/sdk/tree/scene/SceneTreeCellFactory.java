@@ -202,7 +202,7 @@ public class SceneTreeCellFactory implements Callback<TreeView<Object>, TreeCell
 
                         // run after the item has been attached.
                         ThreadRunner.runInJfxThread(() -> {
-                            ServiceManager.getService(SceneExplorerService.class).refresh();
+                            ServiceManager.getService(SceneExplorerService.class).refresh(treeCell.getTreeItem());
                         });
                     });
 
