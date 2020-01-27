@@ -1,17 +1,18 @@
 package com.jayfella.sdk.sdk.tree.scene;
 
+import com.jayfella.sdk.core.background.BackgroundTask;
+import com.jayfella.sdk.core.tasks.LightProbeTask;
+import com.jayfella.sdk.dialog.NewLightProbeDialog;
 import com.jayfella.sdk.dialog.NewSkyBoxDialog;
 import com.jayfella.sdk.ext.core.ServiceManager;
 import com.jayfella.sdk.ext.core.ThreadRunner;
 import com.jayfella.sdk.ext.service.JmeEngineService;
+import com.jayfella.sdk.service.BackgroundTaskService;
 import com.jayfella.sdk.service.SceneExplorerService;
 import com.jme3.asset.AssetManager;
 import com.jme3.asset.TextureKey;
 import com.jme3.asset.plugins.FileLocator;
-import com.jme3.light.AmbientLight;
-import com.jme3.light.DirectionalLight;
-import com.jme3.light.PointLight;
-import com.jme3.light.SpotLight;
+import com.jme3.light.*;
 import com.jme3.renderer.queue.RenderQueue;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
@@ -155,9 +156,18 @@ public class NodeTreeItem extends SceneTreeItem {
         MenuItem lightProbeMenuItem = new MenuItem("Light Probe", new FontAwesomeIconView(FontAwesomeIcon.DOT_CIRCLE_ALT));
         lightProbeMenuItem.setOnAction(event -> {
 
+            NewLightProbeDialog newLightProbeDialog = new NewLightProbeDialog();
+            Node selectedNode = newLightProbeDialog.showAndWait();
 
-            // refresh *after* the item has been added to the scene.
-            ThreadRunner.runInJfxThread(() -> ServiceManager.getService(SceneExplorerService.class).refresh(this));
+            if (selectedNode != null) {
+
+                LightProbe.AreaType areaType = newLightProbeDialog.getSelectedAreaType();
+                float radius = newLightProbeDialog.getSelectedRadius();
+
+                BackgroundTask backgroundTask = new LightProbeTask(item, selectedNode, this, areaType, radius);
+                ServiceManager.getService(BackgroundTaskService.class).addTask(backgroundTask);
+
+            }
 
         });
 

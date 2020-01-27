@@ -22,6 +22,10 @@ public class SceneTreePopulator {
     }
 
     public NodeTreeItem traverse() {
+        return traverse(true, true, true);
+    }
+
+    public NodeTreeItem traverse(boolean geometries, boolean controls, boolean lights) {
 
         if (scene == null) {
             return null;
@@ -29,14 +33,20 @@ public class SceneTreePopulator {
 
         NodeTreeItem root = new NodeTreeItem(scene);
 
-        findLights(root, scene);
-        findControls(root, scene);
-        traverseScene(root, scene);
+        if (lights) {
+            findLights(root, scene);
+        }
+
+        if (controls) {
+            findControls(root, scene);
+        }
+
+        traverseScene(root, scene, geometries, controls, lights);
 
         return root;
     }
 
-    public void traverseScene(TreeItem<Object> treeNode, Spatial spatial) {
+    public void traverseScene(TreeItem<Object> treeNode, Spatial spatial, boolean geometries, boolean controls, boolean lights) {
 
         if (spatial instanceof Node) {
 
@@ -46,24 +56,35 @@ public class SceneTreePopulator {
                 if (child instanceof Node) {
                     NodeTreeItem childTreeItem = new NodeTreeItem((Node) child);
 
-                    findLights(childTreeItem, child);
-                    findControls(childTreeItem, child);
+
+                    if (lights) {
+                        findLights(childTreeItem, child);
+                    }
+
+                    if (controls) {
+                        findControls(childTreeItem, child);
+                    }
 
                     treeNode.getChildren().add(childTreeItem);
-                    traverseScene(childTreeItem, child);
+                    traverseScene(childTreeItem, child, geometries, controls, lights);
                 }
                 else {
-                    traverseScene(treeNode, child);
+                    traverseScene(treeNode, child, geometries, controls, lights);
                 }
             }
         }
-        else if (spatial instanceof Geometry) {
+        else if (geometries && spatial instanceof Geometry) {
             Geometry geometry = (Geometry) spatial;
             GeometryTreeItem geomTreeItem = new GeometryTreeItem(geometry);
             treeNode.getChildren().add(geomTreeItem);
 
-            findLights(geomTreeItem, geometry);
-            findControls(geomTreeItem, geometry);
+            if (lights) {
+                findLights(geomTreeItem, geometry);
+            }
+
+            if (controls) {
+                findControls(geomTreeItem, geometry);
+            }
         }
     }
 

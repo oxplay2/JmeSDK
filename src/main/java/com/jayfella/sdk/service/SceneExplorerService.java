@@ -170,6 +170,10 @@ public class SceneExplorerService implements Service, Initializable {
 
     }
 
+    public Node getAttachedScene() {
+        return attachedScene;
+    }
+
     public void showHighlight() {
         spatialHighlighter.showHightlight();
     }
