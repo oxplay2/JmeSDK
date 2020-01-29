@@ -32,7 +32,7 @@ public class CompileProjectBackgroundTask extends BackgroundTask {
             command = new String[] {"bash", "-c", "./gradlew shadowJar"};
         }
         else if (SystemUtils.IS_OS_WINDOWS) {
-            command = new String[] {"cmd", "/c", "./gradlew shadowJar"};
+            command = new String[] {"cmd", "/c", "./gradlew.bat shadowJar"};
         }
         else {
             log.info("Operating System not implemented yet.");
