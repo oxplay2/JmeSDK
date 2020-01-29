@@ -78,11 +78,15 @@ public class CompileProjectBackgroundTask extends BackgroundTask {
                 }
 
             } catch (IOException | InterruptedException e) {
+
                 // e.printStackTrace();
-                setStatus("Build Failed.");
+
                 log.error("Build failed.", e);
+
+                setStatus("Build Failed.");
                 succeededProperty().setValue(false);
                 return;
+
             }
         }
 
@@ -94,9 +98,21 @@ public class CompileProjectBackgroundTask extends BackgroundTask {
 
         if (existingFiles != null) {
             for (File file : existingFiles) {
-                file.delete();
+
                 log.info("Deleting old jar.");
                 setStatus("Deleting old Jar...");
+
+                boolean deleted = file.delete();
+
+                if (!deleted) {
+
+                    setStatus("Unable to delete old dist.jar.");
+                    log.info("Unable to delete old dist jar.");
+
+                    succeededProperty().setValue(false);
+                    return;
+                }
+
             }
         }
 
@@ -105,21 +121,39 @@ public class CompileProjectBackgroundTask extends BackgroundTask {
         File buildFolder = new File(projectPath, "/build/libs/");
         File[] buildFiles = buildFolder.listFiles();
 
-        File allJar = Arrays.stream(buildFiles)
-                .filter(file -> file.getName().endsWith("-all.jar"))
-                .findFirst()
-                .orElse(null);
+        if (buildFiles != null) {
+            File allJar = Arrays.stream(buildFiles)
+                    .filter(file -> file.getName().endsWith("-all.jar"))
+                    .findFirst()
+                    .orElse(null);
 
-        if (allJar != null && allJar.exists()) {
+            if (allJar != null && allJar.exists()) {
 
-            log.info("Copying dist jar.");
-            setStatus("Copying dist jar...");
+                log.info("Copying dist jar.");
+                setStatus("Copying dist jar...");
 
-            try {
-                Files.copy(allJar, new File(projectPath, "/dist/dist.jar"));
-            } catch (IOException e) {
-                e.printStackTrace();
+                try {
+                    Files.copy(allJar, new File(projectPath, "/dist/dist.jar"));
+                } catch (IOException e) {
+
+                    // e.printStackTrace();
+
+                    log.error("Build failed.", e);
+
+                    setStatus(e.getMessage());
+                    succeededProperty().setValue(false);
+
+                    return;
+                }
             }
+        }
+        else {
+
+            log.info("Unable to locate built jar in ./build/libs/");
+            setStatus("Unable to locate built jar in ./build/libs/");
+
+            succeededProperty().setValue(false);
+            return;
         }
 
         log.info("Compile completed.");
