@@ -1,6 +1,7 @@
 package com.jayfella.sdk.service;
 
 import com.jayfella.sdk.component.builder.impl.AnimComposetComponentSetBuilder;
+import com.jayfella.sdk.component.builder.impl.LightProbeComponentSetBuilder;
 import com.jayfella.sdk.component.builder.impl.SpatialComponentSetBuilder;
 import com.jayfella.sdk.ext.component.Component;
 import com.jayfella.sdk.ext.component.DisposableComponent;
@@ -16,6 +17,7 @@ import com.jayfella.sdk.ext.registrar.spatial.SpatialRegistrar;
 import com.jayfella.sdk.ext.service.JmeEngineService;
 import com.jayfella.sdk.ext.service.RegistrationService;
 import com.jme3.anim.AnimComposer;
+import com.jme3.light.LightProbe;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import javafx.scene.Parent;
@@ -49,6 +51,7 @@ public class InspectorService2 implements Service {
         componentSetBuilders.put(Node.class, new SpatialComponentSetBuilder<Node>());
         componentSetBuilders.put(Geometry.class, new SpatialComponentSetBuilder<Geometry>());
         componentSetBuilders.put(AnimComposer.class, new AnimComposetComponentSetBuilder<AnimComposer>());
+        componentSetBuilders.put(LightProbe.class, new LightProbeComponentSetBuilder<>());
 
         timerTask = new TimerTask() {
             @Override
